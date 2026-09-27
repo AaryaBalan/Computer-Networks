@@ -1,4 +1,4 @@
-# Chapter 3: Client-Server Architecture
+# Chapter 1: Client-Server Architecture
 
 > **Topic:** How the Internet Actually Works — Client, Server, Requests, Responses, Protocols, HTTP Methods, Status Codes, Network Requests, and More
 
