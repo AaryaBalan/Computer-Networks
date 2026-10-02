@@ -4,7 +4,7 @@
 
 # Table of Contents
 
-- [Chapter 6 — Port Numbers](#chapter-6--port-numbers)
+- [Chapter 4 — Port Numbers](#chapter-6--port-numbers)
    - [1. What Is a Port Number?](#1-what-is-a-port-number)
    - [2. Why Is a Port Number 16 Bits?](#2-why-is-a-port-number-16-bits)
    - [3. How Many Port Numbers Are Possible?](#3-how-many-port-numbers-are-possible)
@@ -45,7 +45,7 @@
    - [32. Examples of Guided Communication](#32-examples-of-guided-communication)
    - [33. Examples of Unguided Communication](#33-examples-of-unguided-communication)
 
-- [Chapter 7 — Submarine Cables](#chapter-7--submarine-cables)
+- [Chapter 5 — Submarine Cables](#chapter-7--submarine-cables)
    - [34. How Are Countries Connected?](#34-how-are-countries-connected)
    - [35. Submarine Cables](#35-submarine-cables)
    - [36. Optical Fibre Cables](#36-optical-fibre-cables)
@@ -73,7 +73,7 @@
 
 ---
 
-# Chapter 6 — Port Numbers
+# Chapter 4 — Port Numbers
 
 ## 1. What Is a Port Number?
 
@@ -1342,7 +1342,7 @@ These use wireless communication.
 
 ---
 
-# Chapter 7 — Submarine Cables
+# Chapter 5 — Submarine Cables
 
 # 34. How Are Countries Connected?
 
