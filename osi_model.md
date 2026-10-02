@@ -1,165 +1,197 @@
-# Computer Networks — Chapter 10 & 11 Notes
+# Computer Networks — OSI Model & TCP/IP Model
 
----
+## Table of Contents
 
-# Table of Contents
-
-## Chapter 10 — OSI Model
+### Chapter 10 — OSI Model
 
 1. [What is the OSI Model?](#1-what-is-the-osi-model)
 2. [Why Do We Need the OSI Model?](#2-why-do-we-need-the-osi-model)
-3. [Seven Layers of the OSI Model](#3-seven-layers-of-the-osi-model)
+3. [The 7 Layers of the OSI Model](#3-the-7-layers-of-the-osi-model)
 4. [Layer 7 — Application Layer](#4-layer-7--application-layer)
 5. [Layer 6 — Presentation Layer](#5-layer-6--presentation-layer)
 6. [Layer 5 — Session Layer](#6-layer-5--session-layer)
 7. [Layer 4 — Transport Layer](#7-layer-4--transport-layer)
 8. [Layer 3 — Network Layer](#8-layer-3--network-layer)
 9. [Layer 2 — Data Link Layer](#9-layer-2--data-link-layer)
-10.   [Layer 1 — Physical Layer](#10-layer-1--physical-layer)
-11.   [OSI Model — Complete Data Flow](#11-osi-model--complete-data-flow)
-12.   [Data Units at Different Layers](#12-data-units-at-different-layers)
-13.   [IP Address vs MAC Address](#13-ip-address-vs-mac-address)
-14.   [Logical Addressing vs Physical Addressing](#14-logical-addressing-vs-physical-addressing)
-15.   [Deep Why Questions — OSI Model](#15-deep-why-questions--osi-model)
-16.   [Hands-On Experience](#16-hands-on-experience--osi-model)
+10. [Layer 1 — Physical Layer](#10-layer-1--physical-layer)
+11. [How Data Travels Through All 7 Layers](#11-how-data-travels-through-all-7-layers)
+12. [Data Units at Each Layer](#12-data-units-at-each-layer)
+13. [IP Address vs MAC Address](#13-ip-address-vs-mac-address)
+14. [Logical Addressing vs Physical Addressing](#14-logical-addressing-vs-physical-addressing)
+15. [Deep Why Questions — OSI](#15-deep-why-questions--osi)
+16. [Hands-On Experience](#16-hands-on-experience)
 
-## Chapter 11 — TCP/IP Model
+### Chapter 11 — TCP/IP Model
 
 17. [What is the TCP/IP Model?](#17-what-is-the-tcpip-model)
 18. [TCP/IP Model Layers](#18-tcpip-model-layers)
-19. [OSI vs TCP/IP — Source-Based Comparison](#19-osi-vs-tcpip--source-based-comparison)
+19. [OSI vs TCP/IP](#19-osi-vs-tcpip)
 20. [Deep Why Questions — TCP/IP](#20-deep-why-questions--tcpip)
-21. [Hands-On Experience](#21-hands-on-experience--tcpip)
+21. [Hands-On Experience — TCP/IP](#21-hands-on-experience--tcpip)
 22. [Interview Revision](#22-interview-revision)
+23. [Final Mental Model](#23-final-mental-model)
 
 ---
 
-# Chapter 10 — OSI Model (7 Layers)
+# Chapter 10 — OSI Model
 
 ---
 
 # 1. What is the OSI Model?
 
-## Exact Definition from the Text
+## Definition
 
-The source says:
+**OSI stands for Open Systems Interconnection.**
 
-> **"The OSI model stands for Open Systems Interconnection model."**
+The OSI model is a standard conceptual model used to understand how two or more computers communicate with each other.
 
-The source explains that the OSI model was developed to provide:
+Instead of treating networking as one huge complicated process, we divide it into **7 smaller layers**.
 
-> **"a standard way about how two or more computers communicate with each other."**
+Each layer has a specific responsibility.
 
-In simple words:
+### In one sentence
 
-The **OSI (Open Systems Interconnection) model** is a standard conceptual model that divides computer communication into **seven different layers**.
-
-Each layer has its own responsibility.
+> **The OSI model divides computer communication into seven layers, where each layer performs a specific networking function.**
 
 ---
 
 # 2. Why Do We Need the OSI Model?
 
-The Internet is extremely complex.
-
-When you send a message to someone, many things happen:
+Imagine you send a WhatsApp message:
 
 ```text
-You
- ↓
-Application
- ↓
-Data processing
- ↓
-Session
- ↓
-Transport
- ↓
-Network
- ↓
-Data Link
- ↓
-Physical medium
- ↓
-Network
- ↓
-Friend's device
- ↓
-Application
- ↓
-Friend sees message
+"Hey, where are you?"
 ```
 
-The source explains that sending a message can involve:
+It looks extremely simple from your perspective.
 
-- An application
+You:
+
+```text
+Open WhatsApp
+     ↓
+Type message
+     ↓
+Press Send
+```
+
+But internally, a huge amount of work happens.
+
+Your message has to:
+
+```text
+Application
+    ↓
+Data processing
+    ↓
+Transport
+    ↓
+IP addressing
+    ↓
+Routing
+    ↓
+MAC addressing
+    ↓
+Physical transmission
+    ↓
+Internet
+    ↓
+Receiver
+```
+
+There may be:
+
+- Your application
+- Your network interface
+- Your router
 - Your ISP
-- Different networks
-- Routers
+- Multiple networks
+- Multiple routers
 - IP addresses
-- The destination device
-- The destination application
-- Physical transmission
+- Physical cables or wireless signals
+- The receiver's network
+- The receiver's device
+- The receiver's application
 
-Trying to understand everything at once would be difficult.
+Trying to understand all of this as one giant process would be extremely difficult.
 
-Therefore:
-
-> The complexity is divided into smaller steps called layers.
+So networking is divided into **layers**.
 
 ---
 
 # Simple Analogy — Sending a Parcel
 
-Imagine you want to send a parcel from Chennai to another country.
+Imagine sending a parcel from Chennai to another country.
 
-You don't personally perform every operation.
+You don't personally do everything.
 
 Instead:
 
 ```text
 You
  ↓
-Package prepared
+Prepare the package
  ↓
-Address added
+Write destination address
  ↓
-Courier/session arranged
+Give it to courier
  ↓
-Transport arranged
+Courier chooses transportation
  ↓
-Route selected
+Route is selected
+ ↓
+Package travels through different locations
  ↓
 Local delivery
  ↓
-Physical movement
- ↓
-Destination
+Receiver
 ```
 
-Networking works conceptually in a similar way.
+Networking works in a similar conceptual way.
 
-Each layer has a particular responsibility.
+Each stage has a particular responsibility.
 
 ---
 
-# 3. Seven Layers of the OSI Model
+# Why Is Layering Useful?
 
-The OSI model contains **7 layers**.
+Suppose something goes wrong.
+
+If the network is not working, instead of checking everything randomly, we can ask:
+
+```text
+Is the application working?
+        ↓
+Is transport working?
+        ↓
+Is the IP configuration correct?
+        ↓
+Is the MAC/link working?
+        ↓
+Is the physical connection working?
+```
+
+This makes troubleshooting much easier.
+
+---
+
+# 3. The 7 Layers of the OSI Model
+
+The OSI model has **7 layers**.
 
 From top to bottom:
 
-| Layer | Number | Name         |
-| ----- | -----: | ------------ |
-| 7     |      7 | Application  |
-| 6     |      6 | Presentation |
-| 5     |      5 | Session      |
-| 4     |      4 | Transport    |
-| 3     |      3 | Network      |
-| 2     |      2 | Data Link    |
-| 1     |      1 | Physical     |
+| Layer | Name | Main Responsibility |
+|---:|---|---|
+| 7 | Application | Application-level communication |
+| 6 | Presentation | Data representation, encryption, compression |
+| 5 | Session | Managing communication sessions |
+| 4 | Transport | End-to-end data delivery |
+| 3 | Network | IP addressing and routing |
+| 2 | Data Link | Frames and MAC addressing |
+| 1 | Physical | Bits and physical signals |
 
-### Easy order to remember
+The order is:
 
 ```text
 Application
@@ -171,7 +203,7 @@ Data Link
 Physical
 ```
 
-Or:
+Easy abbreviation:
 
 ```text
 A
@@ -188,30 +220,28 @@ P
 # OSI Model at a Glance
 
 ```text
-┌─────────────────────────────┐
-│ 7. Application              │
-│ User/application interaction│
-├─────────────────────────────┤
-│ 6. Presentation             │
-│ Translation, encryption,    │
-│ compression                 │
-├─────────────────────────────┤
-│ 5. Session                  │
-│ Session management          │
-├─────────────────────────────┤
-│ 4. Transport                │
-│ Segmentation, ports,        │
-│ flow/error control          │
-├─────────────────────────────┤
-│ 3. Network                  │
-│ IP addressing, routing      │
-├─────────────────────────────┤
-│ 2. Data Link                │
-│ MAC addressing, frames      │
-├─────────────────────────────┤
-│ 1. Physical                 │
-│ Bits and physical signals   │
-└─────────────────────────────┘
+┌──────────────────────────────┐
+│ 7. APPLICATION               │
+│ What the application wants   │
+├──────────────────────────────┤
+│ 6. PRESENTATION              │
+│ Represent / protect data     │
+├──────────────────────────────┤
+│ 5. SESSION                   │
+│ Manage communication session │
+├──────────────────────────────┤
+│ 4. TRANSPORT                 │
+│ Deliver data between apps    │
+├──────────────────────────────┤
+│ 3. NETWORK                   │
+│ IP + routing                 │
+├──────────────────────────────┤
+│ 2. DATA LINK                 │
+│ MAC + frames                 │
+├──────────────────────────────┤
+│ 1. PHYSICAL                  │
+│ Bits + signals               │
+└──────────────────────────────┘
 ```
 
 ---
@@ -220,30 +250,24 @@ P
 
 ## What is the Application Layer?
 
-The source explains:
+The Application layer is the layer closest to the user.
 
-> **"Application layer basically it's implemented in software."**
+This is where network applications provide functionality to users.
 
-The application layer is where users interact with applications.
+Examples:
 
-Examples mentioned in the source include:
-
-- Browsers
+- Web browsers
 - Messaging applications
+- Email applications
 - Skype
 - Chrome
 - Other network applications
 
-Users can:
-
-- Send messages
-- Send files
-- Send emails
-- Interact with applications
+You use the application without needing to know how the lower networking layers work.
 
 ---
 
-## Simple Explanation
+# Example — WhatsApp
 
 Suppose you open WhatsApp and type:
 
@@ -251,86 +275,117 @@ Suppose you open WhatsApp and type:
 Hello
 ```
 
-You are interacting with the application.
+You interact with:
 
-You don't manually:
+```text
+WhatsApp
+```
 
-- Create packets
-- Assign IP addresses
-- Add MAC addresses
-- Convert bits into radio signals
+not directly with:
 
-The application handles the user interaction.
+```text
+TCP
+IP
+MAC
+Electrical signals
+Radio signals
+```
 
----
+The application is responsible for providing the interface through which you perform the action.
 
-## Application Layer Protocols
-
-The source mentions examples such as:
-
-- HTTP
-- File Transfer Protocol
-- Telnet
-- DNS
-
-The source says these protocols will be discussed separately later.
-
-For now, understand:
-
-> A protocol defines how communication/data transfer is carried out.
-
----
-
-## Example
-
-When using a browser:
+Conceptually:
 
 ```text
 You
  ↓
-Chrome / Browser
+WhatsApp
  ↓
-Application-layer communication
- ↓
-Lower OSI layers
+Networking stack
  ↓
 Internet
 ```
 
 ---
 
-## Deep Why Question
+# What is a Protocol?
 
-### Why doesn't the user directly interact with the Transport or Network layer?
+A **protocol** is a set of rules that determines how communication takes place.
 
-Because the user only needs to interact with the application.
+Some application-layer protocols include:
+
+- HTTP
+- FTP
+- Telnet
+- DNS
 
 For example:
 
-You don't tell WhatsApp:
+```text
+Browser
+   ↓
+HTTP
+   ↓
+Web server
+```
+
+The application doesn't need to manually create physical signals.
+
+The lower layers take care of that.
+
+---
+
+# Deep Why Question
+
+## Why doesn't WhatsApp directly create IP packets?
+
+Because that is not its responsibility.
+
+The application says essentially:
 
 ```text
-"Create a TCP segment."
-"Add this destination IP."
-"Add this MAC address."
-"Convert it into radio waves."
+"I want to send this data."
 ```
+
+Then lower layers handle the networking work.
+
+This separation is extremely important.
+
+Imagine if every application had to implement:
+
+```text
+IP routing
+MAC addressing
+TCP
+Ethernet
+Wi-Fi
+Physical signals
+```
+
+Every application would become incredibly complicated.
 
 Instead:
 
 ```text
-User → WhatsApp → Networking stack
+Application
+     ↓
+Transport
+     ↓
+Network
+     ↓
+Data Link
+     ↓
+Physical
 ```
 
-The lower layers handle their respective responsibilities.
+Each layer performs its own job.
 
 ---
 
 # 5. Layer 6 — Presentation Layer
 
-The source explains several responsibilities for the presentation layer.
+The Presentation layer is concerned with how data is represented.
 
-Main responsibilities mentioned:
+Important responsibilities include:
 
 1. Translation
 2. Encoding
@@ -339,52 +394,54 @@ Main responsibilities mentioned:
 5. Compression
 6. Abstraction
 
+Think of this layer as:
+
+> **"How should the data be represented, protected, and prepared?"**
+
 ---
 
 # 5.1 Translation
 
-Application data can contain:
+Different computer systems can represent data differently.
 
-- Characters
-- Letters
-- Numbers
-- Words
-
-The presentation layer converts this into a machine-representable format.
-
-The source gives the example of:
+For example, character representations can involve standards such as:
 
 ```text
 ASCII
-↓
-Machine-representable format
+EBCDIC
 ```
 
-and mentions EBCDIC.
+The Presentation layer deals with translating data into an appropriate representation.
 
-This process is called:
+Conceptually:
 
-> **Translation**
+```text
+Application data
+       ↓
+Presentation
+       ↓
+Machine-understandable representation
+```
 
 ---
 
-## Simple Example
+# Simple Example
 
-Suppose the application gives:
+Suppose the application has:
 
 ```text
 HELLO
 ```
 
-The presentation layer deals with representing this data in a form suitable for machine processing/transmission.
+The computer ultimately needs to represent that information in a machine-readable form.
 
 Conceptually:
 
 ```text
-Human-readable data
-        ↓
-Presentation layer
-        ↓
+"HELLO"
+   ↓
+Character representation
+   ↓
 Machine representation
 ```
 
@@ -392,7 +449,7 @@ Machine representation
 
 # 5.2 Encoding
 
-The source also mentions encoding as part of preparing the data before transmission.
+Encoding changes data into a particular representation.
 
 Conceptually:
 
@@ -401,46 +458,64 @@ Original data
      ↓
 Encoding
      ↓
-Representation suitable for processing/transmission
+Encoded representation
 ```
+
+The purpose is to represent data in a form that can be processed or transmitted appropriately.
 
 ---
 
 # 5.3 Encryption
 
-The source explains encryption as changing the data so that it is readable only by the intended person.
+Encryption protects information by transforming it into a form that is not directly readable.
 
-Conceptually:
+Example:
+
+```text
+Original:
+
+"MEET AT 5 PM"
+```
+
+After encryption:
+
+```text
+Encrypted data
+```
+
+The receiver uses decryption to recover the original information.
 
 ```text
 Original message
-       ↓
-   Encryption
-       ↓
-Unreadable/protected data
-       ↓
-     Network
-       ↓
-   Decryption
-       ↓
+      ↓
+  Encryption
+      ↓
+Protected data
+      ↓
+    Network
+      ↓
+  Decryption
+      ↓
 Original message
 ```
 
 ---
 
-## Simple Analogy
+# Simple Analogy — Secret Letter
 
-Imagine sending a letter.
-
-Instead of writing:
+Imagine writing:
 
 ```text
 MEET AT 5 PM
 ```
 
-you convert it into a secret code.
+on a piece of paper.
 
-Only the intended receiver knows how to decode it.
+Anyone who gets the paper can read it.
+
+Instead, you convert it into a secret code.
+
+Only someone who knows how to decode it can understand it.
 
 That is the basic idea behind encryption.
 
@@ -448,141 +523,171 @@ That is the basic idea behind encryption.
 
 # 5.4 Compression
 
-The source says that data is compressed so that:
+Why compress data?
 
-- It becomes easier to transport
-- Traffic can be reduced
+Because smaller data requires less data to be transported.
 
-The source mentions that compression can be:
-
-- Lossy
-- Lossless
-
----
-
-## Lossless Compression
-
-After decompression:
+For example:
 
 ```text
-Original data = Recovered data
+Before:
+
+████████████████████████████████
 ```
 
-No information is intentionally lost.
+After compression:
 
----
-
-## Lossy Compression
-
-Some information can be discarded to reduce size.
+```text
+██████████
+```
 
 Conceptually:
 
 ```text
 Large data
+    ↓
+Compression
+    ↓
+Smaller data
+    ↓
+Transmission
+```
+
+There are two important types:
+
+```text
+Lossless
+Lossy
+```
+
+---
+
+# Lossless Compression
+
+Nothing is intentionally lost.
+
+```text
+Original
    ↓
 Compression
    ↓
-Smaller data
+Compressed
+   ↓
+Decompression
+   ↓
+Original
 ```
 
-The source says the type depends on the situation.
+Therefore:
+
+```text
+Original = Recovered data
+```
+
+---
+
+# Lossy Compression
+
+Some information can be discarded to reduce the size.
+
+```text
+Original
+   ↓
+Lossy compression
+   ↓
+Smaller representation
+```
+
+The recovered result is not necessarily identical to the original.
+
+The choice depends on the situation.
 
 ---
 
 # 5.5 Abstraction
 
-The source explains that the presentation layer provides abstraction.
+Abstraction means hiding unnecessary internal complexity.
 
-The idea is:
+For example, when you use WhatsApp, you simply think:
 
 ```text
-Upper layer
-    ↓
-"I give you this data."
-    ↓
-Presentation layer
-    ↓
-Lower layers handle their work
+Send message
 ```
 
-The upper layer doesn't need to worry about every internal detail of how the data is handled.
+You don't need to think about:
+
+```text
+How is the data encoded?
+How is it represented?
+How is it transmitted?
+How are the bits physically sent?
+```
+
+Those details are handled by lower layers.
 
 ---
 
 # 5.6 SSL
 
-The source mentions:
+SSL stands for:
 
-> **SSL — Secure Sockets Layer**
+> **Secure Sockets Layer**
 
-and associates it with:
+It is associated with:
 
 - Encryption
 - Decryption
 
-The source says the detailed internal operation of these protocols will be covered separately.
+The important idea for now is that security mechanisms can protect communication.
 
 ---
 
-# Presentation Layer — Summary
+# Presentation Layer Summary
 
-| Function    | Meaning                                                  |
-| ----------- | -------------------------------------------------------- |
-| Translation | Converts data into an appropriate machine representation |
-| Encoding    | Represents data in a suitable form                       |
-| Encryption  | Protects data                                            |
-| Decryption  | Recovers protected data                                  |
-| Compression | Reduces data size                                        |
-| Abstraction | Hides lower-level complexity                             |
+| Function | Simple Meaning |
+|---|---|
+| Translation | Convert data representation |
+| Encoding | Represent data in a particular format |
+| Encryption | Protect data |
+| Decryption | Recover protected data |
+| Compression | Reduce data size |
+| Abstraction | Hide unnecessary complexity |
 
 ---
 
 # Deep Why Questions
 
-### Why do we need translation?
+## Why do we need translation?
 
-Different systems may represent data differently.
+Because different systems may represent information differently.
 
-A standard/appropriate representation allows the data to be interpreted correctly.
-
----
-
-### Why compress data?
-
-Because smaller data can reduce the amount of data that needs to be transported.
+A suitable common representation allows systems to interpret the information correctly.
 
 ---
 
-### Why encrypt data?
+## Why compress data?
 
-Because data travelling through a network should not simply be readable by unintended parties.
+Because smaller data means less data needs to be transported.
+
+---
+
+## Why encrypt data?
+
+Because information travelling across a network should not simply be readable by anyone who happens to obtain it.
 
 ---
 
 # 6. Layer 5 — Session Layer
 
-## Main Responsibility
+The Session layer deals with establishing and managing communication sessions.
 
-The source says the session layer helps with:
+Think of a session as:
 
-> **"setting up and managing the connections"**
+> **A period of communication between two parties.**
 
-and enables:
-
-- Sending data
-- Receiving data
-- Termination of connected sessions
-
----
-
-# Session Lifecycle
-
-Conceptually:
+A session can conceptually go through:
 
 ```text
-Session
-   ↓
 Establish
    ↓
 Maintain
@@ -594,9 +699,37 @@ Terminate
 
 ---
 
-# 6.1 Authentication
+# Example — Online Shopping
 
-Before a session is established, authentication may happen.
+Imagine using an online shopping website.
+
+```text
+Open website
+    ↓
+Login
+    ↓
+Session established
+    ↓
+Browse products
+    ↓
+Add product
+    ↓
+Payment
+    ↓
+Transaction completed
+    ↓
+Session ends / logout
+```
+
+The idea of maintaining the communication session belongs to the Session layer in the OSI model.
+
+---
+
+# Authentication
+
+Authentication answers:
+
+> **"Who are you?"**
 
 Example:
 
@@ -607,103 +740,102 @@ Password
 Authentication
 ```
 
-Authentication answers:
+If the credentials are correct:
 
-> "Who are you?"
+```text
+User identified
+```
 
 ---
 
-# 6.2 Authorization
+# Authorization
 
-After authentication, authorization determines whether the user has permission.
+Authorization answers:
+
+> **"What are you allowed to do?"**
 
 Example:
 
 ```text
 User authenticated
        ↓
-Does user have permission?
+What permissions does the user have?
        ↓
-YES → Access
-NO  → Denied
+Access allowed / denied
 ```
-
-Authorization answers:
-
-> "What are you allowed to access?"
 
 ---
 
 # Authentication vs Authorization
 
-| Concept        | Question                    |
-| -------------- | --------------------------- |
-| Authentication | Who are you?                |
-| Authorization  | What are you allowed to do? |
+| Concept | Question |
+|---|---|
+| Authentication | Who are you? |
+| Authorization | What are you allowed to do? |
 
----
-
-# 6.3 Session Example — Online Shopping
-
-The source uses an online shopping example such as Flipkart/Amazon.
-
-Conceptually:
+### Easy memory trick
 
 ```text
-User
- ↓
-Login
- ↓
-Session created
- ↓
-Shopping
- ↓
-Payment
- ↓
-Process completed
- ↓
-Logout/session termination
-```
+Authentication
+→ Identity
 
-The session layer conceptually deals with managing this communication session.
+Authorization
+→ Permission
+```
 
 ---
 
-# 6.4 Abstraction Between Layers
+# Why Separate Session Management?
 
-The session layer assumes that the lower layers will perform their responsibilities.
-
-For example:
+Consider:
 
 ```text
 Session Layer
       ↓
-"I establish/manage the session."
-      ↓
+"I manage the communication session."
+
 Transport Layer
       ↓
-"I handle data transportation."
+"I transport the data."
 ```
 
-The session layer doesn't need to perform the transport layer's entire job itself.
+These are different responsibilities.
+
+If every layer tried to perform every job, the system would become complicated.
+
+Layering keeps responsibilities separate.
 
 ---
 
 # Deep Why Question
 
-### Why separate session management from data transportation?
+## Why shouldn't the Session layer handle all data transportation itself?
 
-Because establishing/managing a communication session and actually transporting data are different responsibilities.
+Because session management and data transportation are different problems.
 
-Dividing responsibilities makes the overall networking process easier to understand and manage.
+For example:
+
+```text
+Session:
+"Are we communicating?"
+
+Transport:
+"How should the data be delivered?"
+```
+
+Different responsibilities can therefore be handled independently.
 
 ---
 
 # 7. Layer 4 — Transport Layer
 
-The transport layer is responsible for transporting data between applications.
+The Transport layer is one of the most important layers for interviews.
 
-The source specifically mentions:
+Its main responsibility is:
+
+> **Transporting data between applications.**
+
+Important concepts:
 
 - TCP
 - UDP
@@ -713,18 +845,16 @@ The source specifically mentions:
 - Flow control
 - Error control
 - Checksum
-- Connection-oriented transmission
-- Connectionless transmission
+- Connection-oriented communication
+- Connectionless communication
 
 ---
 
-# 7.1 Protocols
+# 7.1 What is a Protocol?
 
-The source says:
+A protocol defines the rules for communication.
 
-> **"Protocols are nothing but how data is transferred."**
-
-Two important protocols mentioned:
+At the Transport layer, two important protocols are:
 
 ```text
 TCP
@@ -735,78 +865,130 @@ UDP
 
 # 7.2 Segmentation
 
-Large application data is not necessarily transferred as one giant piece.
+Suppose you want to send a huge file:
 
-The transport layer divides data into smaller units.
+```text
+████████████████████████████████████████████████
+```
+
+Sending it as one enormous unit would be inconvenient.
+
+The Transport layer divides the data into smaller pieces.
 
 This is called:
 
 > **Segmentation**
 
-Conceptually:
+For example:
 
 ```text
 Large data
-──────────────────────
-        ↓
-Transport Layer
-        ↓
-┌─────┐ ┌─────┐ ┌─────┐
-│Seg 1│ │Seg 2│ │Seg 3│
-└─────┘ └─────┘ └─────┘
+    ↓
+┌─────────┐
+│Segment 1│
+├─────────┤
+│Segment 2│
+├─────────┤
+│Segment 3│
+├─────────┤
+│Segment 4│
+└─────────┘
 ```
 
-The source calls these smaller units:
+These smaller units are called **segments**.
 
-> **Segments**
+---
+
+# Why Segment Data?
+
+Imagine transporting 1000 books.
+
+Instead of putting everything into one giant truck that must successfully travel from Chennai to the destination, you can divide the load into manageable shipments.
+
+Similarly, networking can divide large data into smaller units.
 
 ---
 
 # 7.3 Port Numbers
 
-Every segment contains:
-
-- Source port number
-- Destination port number
-
-Why?
-
-Because the destination computer may be running many applications.
-
-For example:
+Suppose your computer is running:
 
 ```text
-Computer
-├── Chrome
-├── WhatsApp
-├── Email
-└── Game
+Chrome
+WhatsApp
+Email
+Game
 ```
 
-The port information helps the data reach the appropriate application.
+All of them can communicate over the network.
+
+Now imagine a packet arrives at your computer.
+
+The computer needs to know:
+
+> **Which application should receive this data?**
+
+This is where **port numbers** become important.
+
+A transport segment contains source and destination port information.
+
+Conceptually:
+
+```text
+Incoming data
+     ↓
+Destination port
+     ↓
+Correct application
+```
 
 ---
 
-# 7.4 Sequence Number
+# Simple Analogy — Apartment Building
 
-When data is divided:
+Imagine:
 
 ```text
-Data
- ↓
+Building
+   ↓
+IP address
+```
+
+Inside the building:
+
+```text
+Room 101
+Room 102
+Room 103
+```
+
+The IP helps identify the machine/network destination.
+
+The port helps identify the particular service/application.
+
+Conceptually:
+
+```text
+IP   → Which machine?
+Port → Which application/service?
+```
+
+---
+
+# 7.4 Sequence Numbers
+
+Suppose data is divided into:
+
+```text
 Segment 1
 Segment 2
 Segment 3
 Segment 4
 ```
 
-The segments may need to be reassembled in the correct order.
+The receiver might not necessarily process them in the exact order they were originally sent.
 
-The source says:
-
-> **"sequence number basically helps to reassemble the segments in the correct order."**
-
-Conceptually:
+For example:
 
 ```text
 Received:
@@ -815,96 +997,154 @@ Segment 3
 Segment 1
 Segment 4
 Segment 2
+```
 
-        ↓
+Sequence information allows the receiver to reconstruct the correct order:
 
-Sequence numbers
-
-        ↓
-
+```text
 1 → 2 → 3 → 4
 ```
+
+Therefore:
+
+> **Sequence numbers help identify the order of segments.**
+
+---
+
+# Deep Why Question
+
+## What would happen without sequence information?
+
+Imagine receiving:
+
+```text
+"The"
+"world"
+"Hello"
+```
+
+You need to know whether the original sentence was:
+
+```text
+Hello the world
+```
+
+or:
+
+```text
+The world Hello
+```
+
+Ordering information allows the receiver to reconstruct the intended sequence.
 
 ---
 
 # 7.5 Flow Control
 
-The source gives the following idea:
-
 Suppose:
 
 ```text
-Server sends = 40 Mbps
-Client receives = 20 Mbps
+Sender = 40 Mbps
+Receiver = 20 Mbps
 ```
 
-If the sender keeps sending at 40 Mbps, the receiver may not be able to process the data at the same rate.
+The sender can produce data faster than the receiver can process it.
 
-Therefore:
+If the sender continuously sends at:
 
-> Flow control controls the amount of data being transferred.
+```text
+40 Mbps
+```
 
-Simple analogy:
+while the receiver can only handle:
 
-Imagine filling a bottle.
+```text
+20 Mbps
+```
+
+the receiver can become overwhelmed.
+
+This is why we need:
+
+> **Flow control**
+
+Flow control regulates how much data is sent so that the receiver can handle it.
+
+---
+
+# Simple Analogy — Filling a Bottle
+
+Imagine:
 
 ```text
 Tap →→→→→ Bottle
 ```
 
-If water enters faster than the bottle can handle:
+Suppose the tap provides water extremely quickly.
+
+But the bottle can only accept water slowly.
+
+Eventually:
 
 ```text
-Overflow!
+OVERFLOW!
 ```
 
-Flow control prevents this kind of mismatch in data transfer.
+Flow control is conceptually like controlling the tap so that the receiver isn't overwhelmed.
 
 ---
 
 # 7.6 Error Control
 
-The source explains that some data may:
+During transmission, data may:
 
 - Get lost
 - Become corrupted
 
-The transport layer deals with such errors.
+Therefore, networking needs mechanisms to detect and deal with transmission problems.
+
+This is called:
+
+> **Error control**
 
 ---
 
 # 7.7 Checksum
 
-The source says a checksum is added to every data segment.
-
-Its purpose is to help determine whether the received data is valid/correct.
+A checksum is associated with the data so that the receiver can check whether the received data is valid/correct.
 
 Conceptually:
 
 ```text
 Data
- ↓
-Checksum added
- ↓
+  +
+Checksum
+  ↓
 Transmission
- ↓
+  ↓
 Receiver
- ↓
-Check data
+  ↓
+Check
 ```
+
+If the calculated/checking result doesn't match the expected value, the receiver can determine that something went wrong.
 
 ---
 
 # 7.8 TCP
 
-The source describes TCP as:
+TCP stands for:
 
-> **Connection-oriented transmission**
+> **Transmission Control Protocol**
 
-The basic idea:
+TCP is **connection-oriented**.
+
+The basic idea is:
 
 ```text
 Sender
+   ↓
+Establish communication
    ↓
 Send data
    ↓
@@ -915,20 +1155,43 @@ Acknowledgement
 Sender knows data was received
 ```
 
-The source gives the example:
+---
+
+# TCP and Acknowledgement
+
+Suppose:
 
 ```text
-Sender → Data → Receiver
-Sender ← ACK  ← Receiver
+Sender → Segment 1 → Receiver
 ```
 
-The acknowledgement tells the sender that the receiver received the data.
+The receiver can respond:
+
+```text
+Receiver → ACK → Sender
+```
+
+The sender now knows that the receiver received the relevant data.
+
+Conceptually:
+
+```text
+Sender
+   │
+   │ Data
+   ▼
+Receiver
+   │
+   │ ACK
+   ▼
+Sender
+```
 
 ---
 
-# TCP Example
+# TCP Example — File Transfer
 
-Suppose you transfer a file.
+Suppose you download a file.
 
 ```text
 File
@@ -937,148 +1200,205 @@ Segments
  ↓
 TCP
  ↓
-Receiver
+Network
  ↓
-Acknowledgements
+Receiver
 ```
 
-TCP can be used where reliable delivery matters.
+The communication can involve acknowledgement and reliability mechanisms.
 
-The source mentions:
+Examples where reliable delivery is important include:
 
 - Email
 - File transfer
-
-as examples.
 
 ---
 
 # 7.9 UDP
 
-The source describes UDP as:
+UDP stands for:
 
-> **Connectionless-oriented transmission**
+> **User Datagram Protocol**
 
-The source says UDP is faster because it does not provide feedback about whether data was lost.
+UDP is **connectionless**.
+
+The sender can send data without establishing the same type of connection-oriented communication used by TCP.
 
 Conceptually:
 
 ```text
 Sender
-  ↓
+   ↓
 Data
-  ↓
+   ↓
 Receiver
-
-No acknowledgement required
 ```
 
-The source gives examples such as:
+There is no requirement for the same acknowledgement/feedback mechanism described for TCP.
 
-- Video conferencing
+---
+
+# Why Can UDP Be Faster?
+
+TCP performs additional mechanisms for reliable communication.
+
+UDP avoids some of this overhead.
+
+Therefore, UDP can be faster.
+
+The trade-off is that some packets may be lost.
+
+---
+
+# UDP Example — Real-Time Communication
+
+Imagine a live game.
+
+Suppose a player's position is:
+
+```text
+x = 100
+y = 200
+```
+
+Then a new position arrives:
+
+```text
+x = 105
+y = 200
+```
+
+If one old update is lost, the game can continue with newer information.
+
+For real-time applications, waiting for every lost packet to be retransmitted may be undesirable.
+
+Examples include:
+
 - Gaming
-
-The source explains that some packets may get lost with UDP.
+- Video conferencing
 
 ---
 
 # TCP vs UDP
 
-| Feature                  | TCP                  | UDP                        |
-| ------------------------ | -------------------- | -------------------------- |
-| Type mentioned in source | Connection-oriented  | Connectionless             |
-| Acknowledgement          | Yes                  | No feedback mentioned      |
-| Reliability              | Higher emphasis      | Less emphasis              |
-| Speed                    | More overhead        | Faster                     |
-| Example                  | Email, file transfer | Video conferencing, gaming |
+| Feature | TCP | UDP |
+|---|---|---|
+| Communication | Connection-oriented | Connectionless |
+| Feedback | Acknowledgement/feedback | No equivalent feedback mechanism |
+| Reliability focus | Higher | Lower |
+| Overhead | Higher | Lower |
+| Speed | Generally slower | Generally faster |
+| Example | Email, file transfer | Gaming, video conferencing |
 
 ---
 
 # Deep Why Questions — Transport Layer
 
-### Why divide data into segments?
+## Why divide data into segments?
 
-Because large data can be handled as smaller units.
-
----
-
-### Why are port numbers needed?
-
-Because a computer can have multiple applications communicating simultaneously.
-
-The data must reach the appropriate application.
+To break large amounts of data into smaller manageable units.
 
 ---
 
-### Why are sequence numbers needed?
+## Why are port numbers needed?
 
-Because multiple segments need to be reconstructed in the correct order.
+Because one computer can run many applications simultaneously.
 
----
+```text
+Computer
+├── Browser
+├── WhatsApp
+├── Email
+└── Game
+```
 
-### Why is flow control needed?
-
-Because the sender and receiver may operate at different rates.
-
----
-
-### Why does TCP send acknowledgements?
-
-To provide feedback that data has been received.
+The port helps identify the intended application/service.
 
 ---
 
-### Why might UDP be used for gaming?
+## Why are sequence numbers needed?
 
-The source emphasizes speed and the absence of feedback/retransmission overhead. For real-time applications, continuing with current data can be useful even if some data is lost.
+Because data is divided into multiple segments and the receiver needs ordering information.
+
+---
+
+## Why is flow control needed?
+
+Because sender and receiver can operate at different speeds.
+
+```text
+Sender   = 40 Mbps
+Receiver = 20 Mbps
+```
+
+---
+
+## Why does TCP use acknowledgement?
+
+To give the sender feedback that data was received.
+
+---
+
+## Why can UDP be useful for gaming?
+
+Because real-time applications can prioritize speed and current information instead of waiting for every missing packet.
 
 ---
 
 # 8. Layer 3 — Network Layer
 
-The source describes the Network layer as responsible for transmission of data segments from one computer to another computer located in a **different network**.
+The Network layer is responsible for moving data between different networks.
 
----
+The important concepts are:
 
-# Main Responsibilities
-
-The source mentions:
-
-1. Logical addressing
-2. IP addressing
-3. Routing
-4. Packet creation
-5. Determining paths
-6. Load balancing
+- IP addresses
+- Logical addressing
+- Packets
+- Routing
+- Path selection
+- Load balancing
+- Routers
 
 ---
 
 # 8.1 Logical Addressing
 
-IP addressing is described as:
+The Network layer uses **logical addressing**.
 
-> **Logical addressing**
+The main example is:
 
-The Network layer assigns:
+> **IP addressing**
+
+A packet can contain:
 
 ```text
 Source IP
 Destination IP
 ```
 
-to the data.
+---
 
-The resulting unit is referred to as an:
+# What is an IP Packet?
 
-> **IP packet**
+Conceptually:
+
+```text
+Segment
+   +
+Source IP
+   +
+Destination IP
+   ↓
+IP Packet
+```
+
+The packet now contains information that allows it to be routed toward its destination.
 
 ---
 
-# Why Does a Packet Need IP Addresses?
+# Simple Analogy — Postal Address
 
-Imagine sending a parcel.
-
-You need:
+Suppose you want to send a parcel:
 
 ```text
 From:
@@ -1088,31 +1408,26 @@ To:
 Bangalore
 ```
 
-Similarly, networking needs source and destination information.
+The delivery system needs destination information.
 
-Conceptually:
+Similarly:
 
 ```text
 Source IP
-     +
 Destination IP
-     +
-Data
-     ↓
-IP Packet
 ```
+
+provide logical addressing information for network communication.
 
 ---
 
 # 8.2 Routing
 
-The source says routing means:
+Routing means:
 
-> Moving a data packet from source to destination.
+> **Moving a data packet from its source toward its destination through an appropriate path.**
 
-The Network layer determines how packets should travel.
-
-Conceptually:
+Imagine:
 
 ```text
 Computer A
@@ -1126,92 +1441,116 @@ Router
 Computer B
 ```
 
+The packet may travel through several intermediate routers.
+
 ---
 
-# 8.3 Choosing a Path
+# 8.3 Why Do We Need Routing?
 
-The source asks the idea:
-
-> What is the best path to take to send data from your computer to your friend's computer?
-
-There can be different possible paths.
-
-Conceptually:
+Imagine there are multiple possible paths:
 
 ```text
-          Router B
-         /        \
-A ------            ------ D
-         \        /
-          Router C
+             Router B
+            /        \
+           /          \
+Computer A              Computer D
+           \          /
+            \        /
+             Router C
 ```
+
+Which path should the packet use?
 
 The network needs to determine an appropriate path.
 
 ---
 
-# 8.4 Routing Protocols
+# Routing Algorithms
 
-The source mentions:
+Routing can involve routing algorithms.
 
-- Routing protocols
-- Dijkstra algorithm
+The material mentions:
 
-and says these will be covered later.
+> **Dijkstra's algorithm**
+
+This is a shortest-path algorithm.
+
+The important idea is:
+
+```text
+Network
+   ↓
+Possible paths
+   ↓
+Calculate appropriate path
+   ↓
+Forward packet
+```
 
 ---
 
-# 8.5 Load Balancing
+# 8.4 Load Balancing
 
-The source also mentions load balancing at the Network layer.
+Suppose:
 
-The idea is to prevent a path/network from becoming overloaded.
+```text
+Path A → Very crowded
+Path B → Lightly loaded
+```
+
+It can be useful to distribute traffic rather than forcing everything through one overloaded path.
 
 Conceptually:
 
 ```text
 Traffic
-  ↓
-Can choose among paths
-  ↓
-Avoid excessive load
+   ↓
+Multiple possible paths
+   ↓
+Distribute traffic
+   ↓
+Reduce excessive load
 ```
+
+This idea is called:
+
+> **Load balancing**
 
 ---
 
-# 8.6 Router
+# 8.5 Router
 
-The source associates routers with the Network layer.
+A router connects different networks and forwards packets between them.
 
-Conceptually:
+For example:
 
 ```text
 Network A
     ↓
- Router
+  Router
     ↓
 Network B
 ```
 
-A router helps move packets between networks.
+A router examines packet information and determines where the packet should go next.
 
 ---
 
 # Deep Why Questions
 
-### Why does the Network layer need IP addresses?
+## Why does the Network layer need IP addresses?
 
-Because the packet needs logical source and destination information so that it can be routed toward the destination.
-
----
-
-### Why can't we simply send data directly?
-
-Because the sender and receiver may be on different networks and may require intermediate devices.
+Because packets need logical source and destination information.
 
 ---
 
-### Why is routing necessary?
+## Why can't two computers simply communicate directly?
+
+They can communicate directly in some situations, but when devices are located on different networks, intermediate networking devices may be required.
+
+---
+
+## Why is routing necessary?
 
 Because there can be multiple possible paths between source and destination.
 
@@ -1219,133 +1558,113 @@ Because there can be multiple possible paths between source and destination.
 
 # 9. Layer 2 — Data Link Layer
 
-The Data Link layer works with communication between computers/hosts over a more direct network link.
+The Data Link layer deals with communication over a local/link-level network.
 
-The source explains two different types of addressing:
+The major concepts are:
 
-```text
-Network Layer
-    ↓
-Logical Addressing
-    ↓
-IP addresses
-
-Data Link Layer
-    ↓
-Physical Addressing
-    ↓
-MAC addresses
-```
+- MAC addresses
+- Physical addressing
+- Frames
+- Media Access Control
+- Error detection
 
 ---
 
 # 9.1 MAC Address
 
-The source describes a MAC address as:
+A MAC address identifies a network interface.
 
-> **"a 12-digit alpha numeric number of the network interface of your computer."**
+A typical MAC address looks like:
 
-The important idea is that different network interfaces can have different MAC addresses.
+```text
+AA:BB:CC:DD:EE:FF
+```
+
+A computer can have multiple network interfaces.
 
 For example:
 
 ```text
-Computer
-├── Wi-Fi interface → MAC address A
-├── Bluetooth       → MAC address B
-└── Other interface → another MAC address
+Laptop
+├── Wi-Fi adapter
+│      └── MAC address
+│
+└── Ethernet adapter
+       └── MAC address
 ```
 
----
-
-# Important
-
-A computer does not necessarily have only one MAC address.
-
-Different network interfaces can have their own MAC addresses.
+Therefore, one computer can have multiple MAC addresses.
 
 ---
 
 # 9.2 Frame
 
-The source says:
+The Data Link layer's data unit is called a:
 
-> **"frame is basically a data unit of the data link layer."**
-
-At the Data Link layer, MAC addresses are used to form a frame.
+> **Frame**
 
 Conceptually:
 
 ```text
 IP Packet
     ↓
-Add MAC information
+Data Link processing
     ↓
 Frame
 ```
+
+A frame can contain MAC addressing information.
 
 ---
 
 # 9.3 Physical Addressing
 
-The Data Link layer performs:
+The Data Link layer deals with:
 
 > **Physical addressing**
 
-The source contrasts this with logical addressing.
+The important distinction is:
 
 ```text
+IP
+ ↓
 Logical addressing
-→ IP
-→ Network layer
+ ↓
+Network layer
+```
 
+versus:
+
+```text
+MAC
+ ↓
 Physical addressing
-→ MAC
-→ Data Link layer
+ ↓
+Data Link layer
 ```
 
 ---
 
 # 9.4 Media Access Control
 
-The source mentions:
+Media Access Control, or MAC, deals with controlling how devices access the communication medium.
 
-> **Media Access Control**
+In simple terms:
 
-This deals with techniques used to get frames:
+> **Who gets to put data onto the shared communication medium, and how is that data handled?**
 
-- Onto the medium
-- Off the medium
-
-The source also mentions:
-
-- Error detection
-- Controlling how data is placed/received from the medium
+The layer also deals with things such as error detection.
 
 ---
 
-# Data Link Layer — Two Main Functions Mentioned
+# Example — Wi-Fi
 
-The source says it:
-
-### Function 1
-
-Allows upper layers of the OSI model to access the frames.
-
-### Function 2
-
-Controls how data is placed and received from the media using Media Access Control techniques.
-
----
-
-# Example
-
-Suppose:
+Imagine:
 
 ```text
-Computer A
+Laptop
    ↓
-Wi-Fi network
+Wi-Fi
    ↓
 Router
 ```
@@ -1364,51 +1683,76 @@ Source MAC
 Destination MAC
 ```
 
-The data is represented as a frame.
+The data is carried in a frame.
 
 ---
 
 # Deep Why Question
 
-### Why do we need both IP and MAC addresses?
+## Why do we need both IP and MAC addresses?
 
-The source distinguishes them as:
+Because they serve different purposes.
+
+Think:
 
 ```text
 IP
-→ Logical addressing
+→ Logical identity/location
 → Network layer
-
-MAC
-→ Physical addressing
-→ Data Link layer
+→ Routing between networks
 ```
 
-They serve different addressing purposes in the networking process.
+and:
+
+```text
+MAC
+→ Network interface identity at the link level
+→ Data Link layer
+→ Local/link communication
+```
+
+---
+
+# Simple Analogy
+
+Imagine a university.
+
+```text
+University
+    ↓
+Building
+    ↓
+Room
+```
+
+A broad address helps locate the building.
+
+A more local identifier helps identify the specific destination within that local environment.
+
+Similarly, networking uses different types of addressing at different layers.
 
 ---
 
 # 10. Layer 1 — Physical Layer
 
-The Physical layer is the hardware-oriented layer.
+The Physical layer is the lowest OSI layer.
 
-The source says it contains:
+It deals with the actual physical transmission of information.
 
-> **"Hardware"**
+Examples:
 
-and deals with:
-
-- Wires
-- Physical media
+- Cables
+- Hardware
 - Electrical signals
 - Light signals
 - Radio signals
+- Bits
 
 ---
 
 # 10.1 Bits
 
-The Physical layer works with bits:
+At the Physical layer, data is represented as bits:
 
 ```text
 0
@@ -1419,21 +1763,22 @@ The Physical layer works with bits:
 0
 ```
 
-Unlike higher layers, the source says it does not work with units such as:
+Higher layers deal with things such as:
 
-- Packets
-- Datagrams
-- Segments
+```text
+Data
+Segments
+Packets
+Frames
+```
 
-Instead, it deals with physical transmission of bits.
+But eventually everything has to become a physical signal.
 
 ---
 
-# 10.2 How Are Bits Transmitted?
+# 10.2 How Are Bits Physically Transmitted?
 
-The source mentions different physical forms.
-
-### Electrical Cable
+## Electrical Cable
 
 ```text
 Bits
@@ -1443,7 +1788,9 @@ Electrical signals
 Cable
 ```
 
-### Optical Fiber
+---
+
+## Optical Fiber
 
 ```text
 Bits
@@ -1453,7 +1800,9 @@ Light signals
 Optical fiber
 ```
 
-### Wi-Fi
+---
+
+## Wi-Fi
 
 ```text
 Bits
@@ -1465,75 +1814,79 @@ Wireless medium
 
 ---
 
-# 10.3 Receiving Data
+# Simple Analogy — Road
 
-At the receiving side:
+Imagine a highway.
 
-```text
-Physical signal
-       ↓
-Physical layer
-       ↓
-Bits
-       ↓
-Data Link layer
-       ↓
-Frame
-       ↓
-Higher layers
-```
+The highway itself is the physical medium.
 
-The source says the Physical layer receives the signal, converts it into bits, and passes it to the Data Link layer as a frame.
+Cars physically travel on it.
+
+Similarly, the Physical layer is concerned with the actual medium through which information travels.
 
 ---
 
-# Simple Analogy
+# 10.3 Receiving Data
 
-Imagine a road.
+At the receiving machine:
 
-The Physical layer is like the actual:
+```text
+Physical signal
+      ↓
+Physical layer
+      ↓
+Bits
+      ↓
+Data Link layer
+      ↓
+Frame
+      ↓
+Higher layers
+```
 
-- Road
-- Vehicle movement
-- Physical medium
-
-It is concerned with how the information physically travels.
+So the receiver converts the physical signal back into meaningful digital information.
 
 ---
 
 # Deep Why Question
 
-### Why does the Physical layer deal with signals instead of packets?
+## Why can't the Physical layer directly understand a packet?
 
-Because packets are logical data structures handled by higher layers.
+Because a packet is a logical data structure.
 
-Eventually, the information must physically travel through some medium.
+The Physical layer is concerned with physically transmitting bits.
 
-That physical representation can be:
+Eventually:
 
 ```text
-Electrical
-Light
-Radio
+Packet
+   ↓
+Frame
+   ↓
+Bits
+   ↓
+Physical signal
 ```
 
 ---
 
-# 11. OSI Model — Complete Data Flow
+# 11. How Data Travels Through All 7 Layers
 
-Now combine all seven layers.
+Now let's connect everything.
 
-Suppose:
+Suppose you send:
 
 ```text
-You send "Hello" to your friend on WhatsApp.
+"Hello"
 ```
+
+to your friend.
 
 ---
 
 # Sender Side
 
-## Step 1 — Application Layer
+## Layer 7 — Application
 
 You type:
 
@@ -1541,25 +1894,27 @@ You type:
 Hello
 ```
 
-The application handles the user interaction.
+into a messaging application.
 
 ```text
-Application
-    ↓
+You
+ ↓
+Messaging application
+ ↓
 "Hello"
 ```
 
 ---
 
-## Step 2 — Presentation Layer
+# Layer 6 — Presentation
 
-The data may undergo operations described by the source:
+The data may be:
 
 ```text
-Translation
-Encoding
-Encryption
-Compression
+Translated
+Encoded
+Encrypted
+Compressed
 ```
 
 Conceptually:
@@ -1574,53 +1929,53 @@ Prepared data
 
 ---
 
-## Step 3 — Session Layer
+# Layer 5 — Session
 
-A communication session is established/managed.
+The communication session is managed.
 
 ```text
 Session
    ↓
-Manage communication
+Communication
 ```
 
 ---
 
-## Step 4 — Transport Layer
+# Layer 4 — Transport
 
 The data is divided into segments.
 
 ```text
-Large data
-   ↓
+Data
+ ↓
 Segment 1
 Segment 2
 Segment 3
 ```
 
-The transport layer adds information such as:
+Transport-related information can include:
 
 ```text
 Source port
 Destination port
-Sequence number
+Sequence information
 Checksum
 ```
 
-depending on the protocol/process being discussed.
+depending on the protocol.
 
 ---
 
-## Step 5 — Network Layer
+# Layer 3 — Network
 
-The Network layer adds:
+The Network layer adds logical addressing:
 
 ```text
 Source IP
 Destination IP
 ```
 
-and forms an IP packet.
+Now we have an IP packet.
 
 ```text
 Segment
@@ -1632,23 +1987,28 @@ Packet
 
 ---
 
-## Step 6 — Data Link Layer
+# Layer 2 — Data Link
 
-MAC addresses are used.
+The Data Link layer handles the link-level delivery.
+
+MAC addresses are involved:
 
 ```text
-Packet
-   ↓
-MAC addressing
-   ↓
+Source MAC
+Destination MAC
+```
+
+The result is a:
+
+```text
 Frame
 ```
 
 ---
 
-## Step 7 — Physical Layer
+# Layer 1 — Physical
 
-The frame ultimately becomes a physical signal representation.
+The frame is ultimately transmitted as bits/signals.
 
 ```text
 Frame
@@ -1658,19 +2018,17 @@ Bits
 Physical signal
 ```
 
-The signal can be represented through:
+The physical signal may be:
 
 ```text
-Electrical signal
-       OR
-Light signal
-       OR
-Radio signal
+Electrical
+Light
+Radio
 ```
 
 ---
 
-# Sender-Side Flow
+# Complete Sender Flow
 
 ```text
 Application
@@ -1686,13 +2044,15 @@ Network
 Data Link
      ↓
 Physical
+     ↓
+Internet / Network
 ```
 
 ---
 
 # Receiver Side
 
-At the receiver, the process moves upward.
+At the receiving device, the process moves upward:
 
 ```text
 Physical
@@ -1710,71 +2070,139 @@ Presentation
 Application
 ```
 
+Eventually:
+
+```text
+"Hello"
+```
+
+appears in the receiving application.
+
 ---
 
 # Complete Communication
 
 ```text
-                 SENDER
-                    │
-                    ▼
-            ┌──────────────┐
-            │ Application  │
-            ├──────────────┤
-            │ Presentation │
-            ├──────────────┤
-            │ Session      │
-            ├──────────────┤
-            │ Transport    │
-            ├──────────────┤
-            │ Network      │
-            ├──────────────┤
-            │ Data Link    │
-            ├──────────────┤
-            │ Physical     │
-            └──────┬───────┘
+                SENDER
                    │
                    ▼
-             Network/Internet
-                   │
-                   ▼
-            ┌──────┴───────┐
-            │ Physical     │
-            ├──────────────┤
-            │ Data Link    │
-            ├──────────────┤
-            │ Network      │
-            ├──────────────┤
-            │ Transport    │
-            ├──────────────┤
-            │ Session      │
-            ├──────────────┤
-            │ Presentation │
-            ├──────────────┤
-            │ Application  │
-            └──────────────┘
-                   │
-                   ▼
-                RECEIVER
+        ┌───────────────────┐
+        │  7. Application   │
+        ├───────────────────┤
+        │  6. Presentation  │
+        ├───────────────────┤
+        │  5. Session       │
+        ├───────────────────┤
+        │  4. Transport     │
+        ├───────────────────┤
+        │  3. Network       │
+        ├───────────────────┤
+        │  2. Data Link     │
+        ├───────────────────┤
+        │  1. Physical      │
+        └─────────┬─────────┘
+                  │
+                  ▼
+             NETWORK
+                  │
+                  ▼
+        ┌─────────┴─────────┐
+        │  1. Physical      │
+        ├───────────────────┤
+        │  2. Data Link     │
+        ├───────────────────┤
+        │  3. Network       │
+        ├───────────────────┤
+        │  4. Transport     │
+        ├───────────────────┤
+        │  5. Session       │
+        ├───────────────────┤
+        │  6. Presentation  │
+        ├───────────────────┤
+        │  7. Application   │
+        └─────────┬─────────┘
+                  │
+                  ▼
+              RECEIVER
 ```
 
 ---
 
-# 12. Data Units at Different Layers
+# Important Concept — Encapsulation
 
-The source explicitly mentions different names for data at different layers.
+One very useful way to understand the sender-side process is **encapsulation**.
 
-| OSI Layer    | Data Unit Mentioned |
-| ------------ | ------------------- |
-| Application  | Data/message        |
-| Presentation | Data                |
-| Session      | Data                |
-| Transport    | Segment             |
-| Network      | Packet              |
-| Data Link    | Frame               |
-| Physical     | Bits                |
+Imagine you have a letter.
 
-Remember:
+You first write the message:
+
+```text
+Hello
+```
+
+Then you put it into an envelope.
+
+Then the envelope gets an address.
+
+Then it gets placed into a delivery system.
+
+Networking works similarly.
+
+Conceptually:
+
+```text
+Application Data
+      ↓
+Transport adds information
+      ↓
+Segment
+      ↓
+Network adds IP information
+      ↓
+Packet
+      ↓
+Data Link adds MAC/link information
+      ↓
+Frame
+      ↓
+Physical transmission
+      ↓
+Bits
+```
+
+At the receiver, the process is reversed.
+
+This is called **decapsulation**.
+
+```text
+Bits
+ ↓
+Frame
+ ↓
+Packet
+ ↓
+Segment
+ ↓
+Application data
+```
+
+---
+
+# 12. Data Units at Each Layer
+
+Different layers use different names for the data they handle.
+
+| Layer | Data Unit |
+|---|---|
+| Application | Data / Message |
+| Presentation | Data |
+| Session | Data |
+| Transport | Segment |
+| Network | Packet |
+| Data Link | Frame |
+| Physical | Bits |
+
+The important chain is:
 
 ```text
 Data
@@ -1806,15 +2234,14 @@ Data
 
 # 13. IP Address vs MAC Address
 
-This is one of the most important distinctions in the chapter.
+This is extremely important.
 
-| Feature               | IP Address               | MAC Address                           |
-| --------------------- | ------------------------ | ------------------------------------- |
-| Layer                 | Network                  | Data Link                             |
-| Addressing type       | Logical                  | Physical                              |
-| Used for              | Network-level addressing | Physical/network-interface addressing |
-| Data unit association | Packet                   | Frame                                 |
-| Source's terminology  | Logical addressing       | Physical addressing                   |
+| Feature | IP Address | MAC Address |
+|---|---|---|
+| Layer | Network | Data Link |
+| Address type | Logical | Physical |
+| Main role | Network-level addressing | Link/interface-level addressing |
+| Associated unit | Packet | Frame |
 
 ---
 
@@ -1824,21 +2251,31 @@ Suppose:
 
 ```text
 Computer A
-IP  → Source IP
-MAC → Source MAC
+```
+
+has:
+
+```text
+Source IP
+Source MAC
 ```
 
 and:
 
 ```text
 Computer B
-IP  → Destination IP
-MAC → Destination MAC
 ```
 
-The packet contains IP addressing.
+has:
 
-The frame contains MAC addressing.
+```text
+Destination IP
+Destination MAC
+```
+
+The packet uses IP addressing.
+
+The frame uses MAC addressing.
 
 ---
 
@@ -1846,187 +2283,247 @@ The frame contains MAC addressing.
 
 ## Logical Addressing
 
-Performed at the Network layer.
+Logical addressing happens at the Network layer.
+
+It uses:
 
 ```text
 Source IP
 Destination IP
 ```
 
-Used for network-level routing.
+Its purpose is to help with communication between networks.
 
 ---
 
-## Physical Addressing
+# Physical Addressing
 
-Performed at the Data Link layer.
+Physical/link-level addressing happens at the Data Link layer.
+
+It uses:
 
 ```text
 Source MAC
 Destination MAC
 ```
 
-Used for physical/link-level delivery.
+---
+
+# Easy Memory Trick
+
+```text
+IP
+ ↓
+Logical
+ ↓
+Network
+ ↓
+Routing
+```
+
+```text
+MAC
+ ↓
+Physical/link-level
+ ↓
+Data Link
+ ↓
+Frame
+```
 
 ---
 
-# Why Both?
+# Postal Analogy
 
-Imagine a postal system.
+Imagine sending a parcel.
 
-### IP Address
-
-Similar to the larger destination information:
+The destination could be:
 
 ```text
 Country
+ ↓
 City
+ ↓
 Area
 ```
 
-### MAC Address
+This is like the broad logical destination.
 
-More like identifying a particular local network interface/device on the local link.
+Then, when the parcel reaches the local area, it needs to be delivered to the particular local destination.
 
-The source's key distinction is:
-
-```text
-IP → Logical
-MAC → Physical
-```
+This is a useful mental model for understanding why networking has different addressing mechanisms.
 
 ---
 
-# 15. Deep Why Questions — OSI Model
+# 15. Deep Why Questions — OSI
 
-## Q1. Why does the OSI model have layers?
+## Q1. Why does OSI have seven layers?
 
-Because networking is complex.
+Because networking contains many different responsibilities.
 
-Breaking it into layers allows each part of communication to have a specific responsibility.
-
----
-
-## Q2. Why can't everything be handled by one layer?
-
-Because communication involves many different responsibilities:
+Instead of putting everything into one huge system:
 
 ```text
-Application interaction
-Translation
-Session management
+Application
+Data representation
+Session
 Transport
 Routing
-MAC addressing
+Local delivery
 Physical transmission
 ```
 
-Keeping these responsibilities separate makes the model easier to understand.
+we separate them into layers.
 
 ---
 
-## Q3. Why does the Transport layer need port numbers?
+## Q2. Why not use one layer for everything?
 
-Because one computer can have many applications.
+Because that would create enormous complexity.
 
-For example:
+For example, imagine every application had to know:
+
+```text
+How TCP works
+How IP works
+How routing works
+How MAC addressing works
+How Ethernet works
+How Wi-Fi works
+How physical signals work
+```
+
+That would make software extremely complicated.
+
+Layering gives each part a clear responsibility.
+
+---
+
+## Q3. Why are port numbers required?
+
+Because one computer can run multiple applications.
 
 ```text
 Computer
- ├── Chrome
- ├── WhatsApp
- ├── Email
- └── Game
+├── Browser
+├── WhatsApp
+├── Email
+└── Game
 ```
 
-The destination port helps identify the appropriate application/service.
+The IP can identify the network destination, while the port helps identify the service/application.
 
 ---
 
 ## Q4. Why does the Network layer use IP?
 
-Because the Network layer needs logical addressing to move data between networks.
+Because communication between different networks needs logical addressing.
+
+```text
+Source
+   ↓
+Destination
+```
+
+The IP addresses provide that logical addressing information.
 
 ---
 
-## Q5. Why does the Data Link layer need MAC?
+## Q5. Why does Data Link use MAC?
 
-Because the source distinguishes physical addressing from logical addressing.
+Because local/link-level communication needs addressing at the network-interface level.
 
 ---
 
 ## Q6. Why does the Physical layer need signals?
 
-Because eventually bits have to travel through an actual medium.
+Because information ultimately needs to travel through an actual physical medium.
 
-Examples mentioned:
+That medium could involve:
 
 ```text
-Copper/electrical
-Optical fiber/light
-Wi-Fi/radio
+Electrical signals
+Light
+Radio
 ```
 
 ---
 
-## Q7. Why can't IP addresses alone perform the entire job?
+## Q7. Why can't IP addresses alone do everything?
 
-The source distinguishes Network-layer logical addressing from Data Link-layer physical addressing.
+Because IP and MAC operate at different layers and solve different problems.
 
-Therefore, different layers handle different parts of delivery.
+```text
+IP
+→ Network layer
+→ Logical addressing
+
+MAC
+→ Data Link layer
+→ Link-level addressing
+```
 
 ---
 
-## Q8. Why does TCP use acknowledgement?
+## Q8. Why does TCP use acknowledgements?
 
-The source explains that the receiver can send an acknowledgement to indicate that data was received.
+Because the sender needs feedback that the receiver received the data.
+
+```text
+Sender → Data → Receiver
+Sender ← ACK  ← Receiver
+```
 
 ---
 
-## Q9. Why doesn't UDP provide the same feedback?
+## Q9. Why doesn't UDP work exactly like TCP?
 
-The source says UDP does not provide feedback about whether data was lost, which contributes to its faster behavior.
+Because UDP does not use the same connection-oriented acknowledgement mechanism.
+
+This reduces overhead and can make it faster.
 
 ---
 
 ## Q10. Why is flow control necessary?
 
-Because sender and receiver can operate at different speeds.
+Because:
+
+```text
+Sender speed ≠ Receiver speed
+```
 
 Example:
 
 ```text
-Sender = 40 Mbps
+Sender   = 40 Mbps
 Receiver = 20 Mbps
 ```
 
-The sender may need to slow down.
+The receiver cannot necessarily process everything at the sender's rate.
 
 ---
 
-## Q11. Why are sequence numbers necessary?
+## Q11. Why are sequence numbers useful?
 
-Because data can be divided into multiple segments.
+Because data may be divided into multiple segments.
 
-The receiver needs to reconstruct them in the proper order.
-
----
-
-## Q12. Why is checksum added?
-
-To help determine whether received data is correct or corrupted.
+The receiver needs to know their ordering.
 
 ---
 
-# 16. Hands-On Experience — OSI Model
+## Q12. Why is a checksum useful?
 
-The best way to understand OSI is to observe actual network communication.
+Because the receiver needs a way to detect whether the received data is correct or has been corrupted.
+
+---
+
+# 16. Hands-On Experience
+
+The best way to understand networking is to connect the theory to your own Linux machine.
 
 ---
 
 # Practical 1 — Find Your IP Address
-
-## Linux
 
 Run:
 
@@ -2040,15 +2537,25 @@ or:
 ip a
 ```
 
-Look for your network interface.
-
-You may see something conceptually like:
+Look for something similar to:
 
 ```text
 inet 192.168.x.x
 ```
 
-This is an IP address assigned to the interface.
+This is an IP address assigned to a network interface.
+
+### Think
+
+Ask yourself:
+
+```text
+Which interface is connected?
+
+What is its IP?
+
+Is it IPv4 or IPv6?
+```
 
 ---
 
@@ -2066,7 +2573,7 @@ Look for:
 link/ether xx:xx:xx:xx:xx:xx
 ```
 
-That is the MAC address associated with that network interface.
+That is the MAC address of the interface.
 
 ---
 
@@ -2078,33 +2585,37 @@ Run:
 ip addr
 ```
 
-and:
+Then:
 
 ```bash
 ip link
 ```
 
-Identify:
+Find:
 
 ```text
 IP address
 MAC address
 ```
 
-Then remember:
+Now connect them to the OSI model:
 
 ```text
 IP
-↓
+ ↓
 Network layer
-↓
+ ↓
 Logical addressing
+```
 
+and:
+
+```text
 MAC
-↓
+ ↓
 Data Link layer
-↓
-Physical addressing
+ ↓
+Link-level/physical addressing
 ```
 
 ---
@@ -2117,13 +2628,20 @@ Run:
 ping google.com
 ```
 
-Observe the output.
+You should see responses if communication succeeds.
 
-You are testing whether communication with the destination is possible.
+The output can show information such as:
+
+```text
+time
+packet responses
+```
+
+This gives you a practical way to observe network communication.
 
 ---
 
-# Practical 5 — Observe the Route
+# Practical 5 — Observe Routing
 
 Run:
 
@@ -2131,7 +2649,7 @@ Run:
 traceroute google.com
 ```
 
-If `traceroute` is not installed:
+If it is not installed:
 
 ```bash
 sudo apt install traceroute
@@ -2143,13 +2661,29 @@ Then:
 traceroute google.com
 ```
 
-You can observe multiple hops between your machine and the destination.
+You can observe multiple hops.
 
-This helps visualize the Network layer's routing concept.
+For example conceptually:
+
+```text
+Your computer
+     ↓
+Router
+     ↓
+ISP
+     ↓
+Router
+     ↓
+Router
+     ↓
+Destination
+```
+
+This makes the Network layer's routing concept much easier to visualize.
 
 ---
 
-# Practical 6 — DNS Observation
+# Practical 6 — Observe DNS
 
 Run:
 
@@ -2163,13 +2697,13 @@ or:
 dig google.com
 ```
 
-This lets you observe DNS-related information.
+You can inspect DNS information.
 
-The source mentioned DNS as an application-layer protocol/topic.
+This helps connect application-level networking concepts with actual network commands.
 
 ---
 
-# Practical 7 — Inspect Listening Ports
+# Practical 7 — Inspect Ports
 
 Run:
 
@@ -2177,13 +2711,23 @@ Run:
 ss -tuln
 ```
 
-You can observe ports on which services are listening.
+You can see ports on which services are listening.
 
-This helps connect the practical system to the Transport layer concept of port numbers.
+This connects directly to the Transport layer concept:
+
+```text
+IP
+ ↓
+Machine/network destination
+
+Port
+ ↓
+Application/service
+```
 
 ---
 
-# Practical 8 — Capture Packets
+# Practical 8 — Capture Packets with Wireshark
 
 Install Wireshark:
 
@@ -2191,42 +2735,40 @@ Install Wireshark:
 sudo apt install wireshark
 ```
 
-Open Wireshark and start capturing traffic.
+Open Wireshark and start capturing.
 
-Then:
+Then run:
 
 ```bash
 ping google.com
 ```
 
-Observe packets.
-
-Try filtering:
+In Wireshark, filter:
 
 ```text
 icmp
 ```
 
-You can inspect packet information and begin connecting practical network traffic to the layered model.
+Now you can inspect actual network traffic.
 
 ---
 
 # Practical 9 — Observe TCP
 
-In Wireshark, try:
+In Wireshark, use:
 
 ```text
 tcp
 ```
 
-You can inspect TCP traffic.
-
-Look for concepts such as:
+Look for:
 
 - Source port
 - Destination port
 - Sequence information
 - Acknowledgement information
+
+This gives you a practical connection to the Transport layer.
 
 ---
 
@@ -2240,21 +2782,27 @@ udp
 
 in Wireshark.
 
-Compare UDP traffic with TCP traffic.
+Compare TCP and UDP.
 
 Think:
 
 ```text
 TCP
-→ connection-oriented
-→ acknowledgement/feedback
-
-UDP
-→ connectionless
-→ no feedback about loss
+ ↓
+Connection-oriented
+ ↓
+Acknowledgement/feedback
 ```
 
-according to the source's overview.
+versus:
+
+```text
+UDP
+ ↓
+Connectionless
+ ↓
+No equivalent feedback mechanism
+```
 
 ---
 
@@ -2270,9 +2818,19 @@ Answer:
 
 1. What is your IP address?
 2. Which interface has it?
-3. What is the interface's MAC address?
+3. Is it IPv4 or IPv6?
 
-Then run:
+Now:
+
+```bash
+ip link
+```
+
+Answer:
+
+4. What is your MAC address?
+
+Now:
 
 ```bash
 ip route
@@ -2280,10 +2838,10 @@ ip route
 
 Answer:
 
-4. What is your default route?
-5. Which interface is used?
+5. What is your default route?
+6. Which interface is used?
 
-Then:
+Now:
 
 ```bash
 ping google.com
@@ -2291,10 +2849,10 @@ ping google.com
 
 Answer:
 
-6. What happens?
-7. What information does `ping` show?
+7. Does it receive replies?
+8. What is the response time?
 
-Then:
+Finally:
 
 ```bash
 traceroute google.com
@@ -2302,20 +2860,20 @@ traceroute google.com
 
 Answer:
 
-8. How many hops are displayed?
-9. Why are there multiple hops?
+9. How many hops are shown?
+10. Why does the packet pass through multiple devices?
 
 ---
 
-# OSI Model — One Real-Life Example
+# Real-Life Example — Sending "Hey!"
 
 Suppose you send:
 
 ```text
-"Hey!"
+Hey!
 ```
 
-to your friend through a messaging application.
+through a messaging application.
 
 ---
 
@@ -2327,7 +2885,13 @@ You type:
 Hey!
 ```
 
-The messaging application handles your interaction.
+The messaging application handles the user interaction.
+
+```text
+User
+ ↓
+Messaging App
+```
 
 ---
 
@@ -2342,7 +2906,7 @@ Encrypted
 Compressed
 ```
 
-according to the responsibilities described in the source.
+depending on the communication process.
 
 ---
 
@@ -2350,33 +2914,41 @@ according to the responsibilities described in the source.
 
 The communication session is managed.
 
+```text
+Session
+ ↓
+Communication
+```
+
 ---
 
 ## Layer 4 — Transport
 
-The data can be:
+The data can be divided:
 
 ```text
-Divided into segments
+Data
+ ↓
+Segment 1
+Segment 2
+Segment 3
 ```
 
-and information such as:
+Transport information can include:
 
 ```text
 Ports
-Sequence number
+Sequence information
 Checksum
 ```
 
-can be involved.
-
-TCP or UDP may be used.
+TCP or UDP may be involved.
 
 ---
 
 ## Layer 3 — Network
 
-The Network layer deals with:
+The Network layer handles:
 
 ```text
 Source IP
@@ -2384,32 +2956,29 @@ Destination IP
 Routing
 ```
 
-and forms an IP packet.
+The result is an IP packet.
 
 ---
 
 ## Layer 2 — Data Link
 
-The packet is handled at the link level with:
+The packet is handled at the link level.
 
 ```text
-MAC addresses
+Source MAC
+Destination MAC
 ```
 
-forming a:
-
-```text
-Frame
-```
+The result is a frame.
 
 ---
 
 ## Layer 1 — Physical
 
-The data becomes physical signals:
+The frame becomes a physical representation:
 
 ```text
-Electrical
+Electrical signals
 OR
 Light
 OR
@@ -2418,9 +2987,9 @@ Radio
 
 ---
 
-# Receiver
+# Receiver Side
 
-The reverse process happens conceptually:
+The process conceptually reverses:
 
 ```text
 Physical
@@ -2442,33 +3011,35 @@ Application
 
 ---
 
-# Important Concept — Peer Communication
+# Peer-to-Peer Concept in OSI
 
-The source explains that conceptually each layer can be thought of as communicating with the corresponding layer on the other machine.
-
-For example:
+We can conceptually imagine:
 
 ```text
-My Application Layer
-        ↕
-Friend's Application Layer
+Sender Application
+       ↕
+Receiver Application
 ```
 
-or:
+and:
 
 ```text
-My Transport Layer
-        ↕
-Friend's Transport Layer
+Sender Transport
+       ↕
+Receiver Transport
 ```
 
-However, this is a **conceptual model**.
+and so on.
 
-The actual data travels through the lower layers, physical medium, networks, and then back up the layers at the receiver.
+But remember:
+
+> This is a conceptual model.
+
+The actual data physically travels down the sender's stack, through the network, and then up the receiver's stack.
 
 ---
 
-# Conceptual Route
+# Complete Conceptual Route
 
 ```text
 Sender Application
@@ -2504,39 +3075,37 @@ Receiver Application
 
 ---
 
-# Important Exam Summary — OSI
+# OSI — Quick Revision Table
 
-| Layer           | Main Idea                                                          |
-| --------------- | ------------------------------------------------------------------ |
-| 7. Application  | User/application interaction                                       |
-| 6. Presentation | Translation, encoding, encryption, compression, abstraction        |
-| 5. Session      | Establishing, managing and terminating sessions                    |
-| 4. Transport    | Segmentation, ports, sequence numbers, flow/error control, TCP/UDP |
-| 3. Network      | IP addressing, packets, routing                                    |
-| 2. Data Link    | MAC addressing, frames, media access                               |
-| 1. Physical     | Hardware, bits, electrical/light/radio signals                     |
+| Layer | Remember This |
+|---|---|
+| 7. Application | Applications communicate |
+| 6. Presentation | Translation, encoding, encryption, compression |
+| 5. Session | Manage communication sessions |
+| 4. Transport | TCP, UDP, segments, ports, flow/error control |
+| 3. Network | IP, packets, routing |
+| 2. Data Link | MAC, frames, link-level communication |
+| 1. Physical | Bits, cables, signals |
 
 ---
 
-# Chapter 11 — TCP/IP Model (5 Layers)
+# Chapter 11 — TCP/IP Model
 
 # 17. What is the TCP/IP Model?
 
-The source introduces another networking model:
+The TCP/IP model is another way of organizing networking functions.
 
-> **TCP/IP Model**
-
-The source says it is also known as the:
+TCP/IP is also referred to as the:
 
 > **Internet Protocol Suite**
 
-The source explains that it is similar to the OSI model but has fewer layers.
+It is similar to the OSI model, but it uses fewer layers.
 
 ---
 
 # 18. TCP/IP Model Layers
 
-The source lists **5 layers**:
+The model contains 5 layers:
 
 ```text
 1. Application
@@ -2546,135 +3115,31 @@ The source lists **5 layers**:
 5. Physical
 ```
 
----
-
-# TCP/IP Model
+Visual representation:
 
 ```text
-┌────────────────────┐
-│ Application        │
-├────────────────────┤
-│ Transport          │
-├────────────────────┤
-│ Network            │
-├────────────────────┤
-│ Data Link          │
-├────────────────────┤
-│ Physical           │
-└────────────────────┘
+┌──────────────────────┐
+│ Application          │
+├──────────────────────┤
+│ Transport            │
+├──────────────────────┤
+│ Network              │
+├──────────────────────┤
+│ Data Link            │
+├──────────────────────┤
+│ Physical             │
+└──────────────────────┘
 ```
 
 ---
 
-# 19. OSI vs TCP/IP — Source-Based Comparison
+# 19. OSI vs TCP/IP
 
-The source says the models are:
+The two models are very similar in their overall idea:
 
-> **"mostly similar"**
+> Networking responsibilities are divided into layers.
 
-but differ in their layer structure.
-
-The key difference described is that TCP/IP has **5 layers instead of 7**.
-
----
-
-# Layer Mapping Given by the Source
-
-The source explains that the OSI model's:
-
-```text
-Application
-Presentation
-Session
-```
-
-are merged into the TCP/IP model's:
-
-```text
-Application
-```
-
-The remaining layers correspond:
-
-```text
-OSI                         TCP/IP
-
-Application ───────┐
-Presentation ──────┼────── Application
-Session ───────────┘
-
-Transport ──────────────── Transport
-
-Network ────────────────── Network
-
-Data Link ──────────────── Data Link
-
-Physical ───────────────── Physical
-```
-
----
-
-# Comparison Table
-
-| OSI Model    | TCP/IP Model |
-| ------------ | ------------ |
-| Application  | Application  |
-| Presentation | Application  |
-| Session      | Application  |
-| Transport    | Transport    |
-| Network      | Network      |
-| Data Link    | Data Link    |
-| Physical     | Physical     |
-
-Therefore:
-
-```text
-OSI = 7 layers
-
-TCP/IP = 5 layers
-```
-
----
-
-# Source's Main Point
-
-The source states that:
-
-> The TCP/IP model is more practically used.
-
-The uploaded source ends immediately after introducing this comparison, so no additional TCP/IP details are added here.
-
----
-
-# 20. Deep Why Questions — TCP/IP
-
-## Q1. Why does TCP/IP have fewer layers?
-
-According to the source, the TCP/IP model reduces the number of layers by combining:
-
-```text
-OSI:
-Application
-Presentation
-Session
-
-        ↓
-
-TCP/IP:
-Application
-```
-
----
-
-## Q2. What is common between OSI and TCP/IP?
-
-Both models divide networking responsibilities into layers.
-
-The source describes TCP/IP as similar to OSI.
-
----
-
-## Q3. What is the biggest structural difference?
+The major difference is the number of layers.
 
 ```text
 OSI
@@ -2684,7 +3149,33 @@ TCP/IP
 → 5 layers
 ```
 
-The TCP/IP Application layer combines the OSI:
+---
+
+# How Are the Layers Mapped?
+
+In OSI:
+
+```text
+Application
+Presentation
+Session
+Transport
+Network
+Data Link
+Physical
+```
+
+In TCP/IP:
+
+```text
+Application
+Transport
+Network
+Data Link
+Physical
+```
+
+The TCP/IP Application layer combines the responsibilities represented by the OSI:
 
 ```text
 Application
@@ -2692,11 +3183,158 @@ Presentation
 Session
 ```
 
+Conceptually:
+
+```text
+OSI                          TCP/IP
+
+Application ────────┐
+Presentation ───────┼────── Application
+Session ────────────┘
+
+Transport ───────────────── Transport
+
+Network ─────────────────── Network
+
+Data Link ───────────────── Data Link
+
+Physical ────────────────── Physical
+```
+
+---
+
+# Comparison Table
+
+| OSI | TCP/IP |
+|---|---|
+| Application | Application |
+| Presentation | Application |
+| Session | Application |
+| Transport | Transport |
+| Network | Network |
+| Data Link | Data Link |
+| Physical | Physical |
+
+Therefore:
+
+```text
+OSI    = 7 layers
+TCP/IP = 5 layers
+```
+
+---
+
+# Why Does TCP/IP Have Fewer Layers?
+
+The three OSI layers:
+
+```text
+Application
+Presentation
+Session
+```
+
+are combined into:
+
+```text
+Application
+```
+
+in the TCP/IP model.
+
+So:
+
+```text
+3 OSI layers
+      ↓
+1 TCP/IP layer
+```
+
+The remaining four layers correspond directly.
+
+---
+
+# Deep Why Questions — TCP/IP
+
+## Why do we have both OSI and TCP/IP models?
+
+Both provide a layered way to understand networking.
+
+The major structural difference is:
+
+```text
+OSI    → 7 layers
+TCP/IP → 5 layers
+```
+
+---
+
+## What do they have in common?
+
+Both divide networking into separate responsibilities.
+
+For example, both have concepts corresponding to:
+
+```text
+Application
+Transport
+Network
+Data Link
+Physical
+```
+
+---
+
+## What is the biggest structural difference?
+
+The OSI model separates:
+
+```text
+Application
+Presentation
+Session
+```
+
+while TCP/IP combines them into:
+
+```text
+Application
+```
+
+---
+
+# 20. Deep Why Questions — TCP/IP
+
+### Question 1
+
+Why does TCP/IP have fewer layers?
+
+Because the Application, Presentation, and Session responsibilities are combined into one Application layer.
+
+---
+
+### Question 2
+
+What is common between the two models?
+
+Both use layers to divide networking responsibilities.
+
+---
+
+### Question 3
+
+How many layers are there?
+
+```text
+OSI    → 7
+TCP/IP → 5
+```
+
 ---
 
 # 21. Hands-On Experience — TCP/IP
 
-You can connect the TCP/IP model to the same Linux commands.
+The same Linux commands can help you connect practical networking to the TCP/IP model.
 
 ---
 
@@ -2706,9 +3344,11 @@ You can connect the TCP/IP model to the same Linux commands.
 ip a
 ```
 
-Relates to:
+Think:
 
 ```text
+IP
+ ↓
 Network layer
 ```
 
@@ -2720,9 +3360,11 @@ Network layer
 ip link
 ```
 
-Relates to:
+Think:
 
 ```text
+MAC
+ ↓
 Data Link layer
 ```
 
@@ -2734,9 +3376,11 @@ Data Link layer
 ip route
 ```
 
-Relates to:
+Think:
 
 ```text
+Routing
+ ↓
 Network layer
 ```
 
@@ -2748,7 +3392,7 @@ Network layer
 ping google.com
 ```
 
-Helps observe network communication.
+This lets you observe network communication.
 
 ---
 
@@ -2764,7 +3408,7 @@ or:
 dig google.com
 ```
 
-The source mentions DNS as an application-layer protocol/topic.
+This lets you inspect DNS-related information.
 
 ---
 
@@ -2774,7 +3418,7 @@ The source mentions DNS as an application-layer protocol/topic.
 ss -tuln
 ```
 
-Helps observe transport-layer port concepts.
+This lets you observe listening ports and connect them with Transport-layer concepts.
 
 ---
 
@@ -2782,15 +3426,15 @@ Helps observe transport-layer port concepts.
 
 ## Q1. What is OSI?
 
-The OSI model stands for:
+OSI stands for:
 
-> **Open Systems Interconnection model**
+> **Open Systems Interconnection**
 
-It provides a standard conceptual framework for communication between computers.
+It is a conceptual model that divides networking into seven layers.
 
 ---
 
-## Q2. How many layers does OSI have?
+## Q2. How many layers are in OSI?
 
 ```text
 7
@@ -2798,7 +3442,7 @@ It provides a standard conceptual framework for communication between computers.
 
 ---
 
-## Q3. Name all seven layers.
+## Q3. Name the seven layers.
 
 ```text
 Application
@@ -2812,15 +3456,23 @@ Physical
 
 ---
 
-## Q4. What does the Application layer do?
+## Q4. What is the Application layer?
 
-It provides the layer where users interact with network applications such as browsers and messaging applications.
+The layer closest to network applications and user interaction.
+
+Examples:
+
+```text
+Browser
+Messaging application
+Email application
+```
 
 ---
 
 ## Q5. What does the Presentation layer do?
 
-The source mentions:
+It deals with:
 
 ```text
 Translation
@@ -2835,56 +3487,64 @@ Abstraction
 
 ## Q6. What does the Session layer do?
 
-It helps:
+It deals with:
 
 ```text
-Establish sessions
-Manage sessions
-Send/receive data
-Terminate sessions
+Establishing sessions
+Managing sessions
+Maintaining communication
+Terminating sessions
 ```
-
-The source also discusses authentication and authorization in this context.
 
 ---
 
 ## Q7. What does the Transport layer do?
 
-It handles concepts including:
+Important concepts:
 
 ```text
+TCP
+UDP
 Segmentation
-Port numbers
+Ports
 Sequence numbers
 Flow control
 Error control
 Checksum
-TCP
-UDP
 ```
 
 ---
 
 ## Q8. What is a segment?
 
-A smaller data unit produced when data is divided at the Transport layer.
+A smaller unit of data created when large data is divided at the Transport layer.
 
 ---
 
-## Q9. Why are port numbers used?
+## Q9. Why are ports needed?
 
-To help data reach the correct application/service on a computer.
-
----
-
-## Q10. What is the Network layer responsible for?
-
-The source mentions:
+Because multiple applications can communicate on the same computer.
 
 ```text
+IP
+ ↓
+Computer/network destination
+
+Port
+ ↓
+Application/service
+```
+
+---
+
+## Q10. What does the Network layer do?
+
+It deals with:
+
+```text
+IP addressing
 Logical addressing
-IP addresses
-Packet creation
+Packets
 Routing
 Path selection
 Load balancing
@@ -2894,32 +3554,24 @@ Load balancing
 
 ## Q11. What is logical addressing?
 
-The source associates logical addressing with:
-
-```text
-IP addressing
-```
-
-at the Network layer.
+Addressing using IP addresses at the Network layer.
 
 ---
 
 ## Q12. What is a packet?
 
-The source describes the Network layer as assigning source and destination IP addresses and forming an:
-
-> **IP packet**
+A Network-layer data unit containing network-level information such as source and destination IP addresses.
 
 ---
 
-## Q13. What is the Data Link layer responsible for?
+## Q13. What does the Data Link layer do?
 
-The source discusses:
+It deals with:
 
 ```text
-Physical addressing
 MAC addresses
 Frames
+Physical/link-level addressing
 Media Access Control
 Error detection
 ```
@@ -2928,7 +3580,7 @@ Error detection
 
 ## Q14. What is a MAC address?
 
-The source describes it as a 12-digit alphanumeric number associated with a network interface.
+A MAC address identifies a network interface at the link level.
 
 ---
 
@@ -2940,13 +3592,12 @@ A frame is the Data Link layer's data unit.
 
 ## Q16. What does the Physical layer do?
 
-It deals with:
+It handles:
 
 ```text
+Bits
 Hardware
 Cables
-Physical media
-Bits
 Electrical signals
 Light signals
 Radio signals
@@ -2967,35 +3618,27 @@ Physical  → Bits
 
 ## Q18. What is TCP?
 
-The source describes TCP as:
+TCP is a connection-oriented transport protocol.
 
-```text
-Connection-oriented transmission
-```
-
-with acknowledgement/feedback.
+It uses acknowledgement/feedback mechanisms for reliable communication.
 
 ---
 
 ## Q19. What is UDP?
 
-The source describes UDP as:
+UDP is a connectionless transport protocol.
 
-```text
-Connectionless transmission
-```
-
-and explains that it does not provide feedback about whether data was lost.
+It does not use the same acknowledgement/feedback mechanism as TCP and can therefore have lower overhead.
 
 ---
 
 ## Q20. Why can UDP be faster?
 
-The source explains that it does not provide the same feedback mechanism, reducing this overhead.
+Because it avoids some of the additional mechanisms used by TCP.
 
 ---
 
-## Q21. Give examples of TCP use from the source.
+## Q21. Examples of TCP usage?
 
 ```text
 Email
@@ -3004,24 +3647,22 @@ File transfer
 
 ---
 
-## Q22. Give examples of UDP use from the source.
+## Q22. Examples of UDP usage?
 
 ```text
-Video conferencing
 Gaming
+Video conferencing
 ```
 
 ---
 
-## Q23. What is the TCP/IP model?
+## Q23. What is TCP/IP?
 
-The source introduces it as another model, also called the:
-
-> **Internet Protocol Suite**
+TCP/IP is a networking model/protocol suite commonly associated with Internet communication.
 
 ---
 
-## Q24. How many layers does TCP/IP have according to the source?
+## Q24. How many layers does TCP/IP have?
 
 ```text
 5
@@ -3029,7 +3670,7 @@ The source introduces it as another model, also called the:
 
 ---
 
-## Q25. Name the TCP/IP layers.
+## Q25. Name them.
 
 ```text
 Application
@@ -3041,153 +3682,173 @@ Physical
 
 ---
 
-## Q26. How are OSI and TCP/IP different?
-
-Main structural difference discussed in the source:
+## Q26. OSI vs TCP/IP?
 
 ```text
-OSI = 7 layers
+OSI
+→ 7 layers
 
-TCP/IP = 5 layers
+TCP/IP
+→ 5 layers
 ```
 
-The TCP/IP Application layer combines the OSI:
+The TCP/IP Application layer combines:
+
+```text
+OSI Application
+OSI Presentation
+OSI Session
+```
+
+---
+
+# 23. Final Mental Model
+
+If someone asks you:
+
+> **"Explain what happens when you send a message over the Internet."**
+
+Think like this:
+
+```text
+                    USER
+                      ↓
+             "Send this message"
+                      ↓
+             ┌─────────────────┐
+             │  APPLICATION    │
+             │  User interacts │
+             └────────┬────────┘
+                      ↓
+             ┌─────────────────┐
+             │  PRESENTATION   │
+             │  Represent      │
+             │  Encrypt        │
+             │  Compress       │
+             └────────┬────────┘
+                      ↓
+             ┌─────────────────┐
+             │    SESSION      │
+             │ Manage session  │
+             └────────┬────────┘
+                      ↓
+             ┌─────────────────┐
+             │   TRANSPORT     │
+             │ TCP / UDP       │
+             │ Segments        │
+             │ Ports           │
+             └────────┬────────┘
+                      ↓
+             ┌─────────────────┐
+             │    NETWORK      │
+             │ IP              │
+             │ Routing         │
+             │ Packets         │
+             └────────┬────────┘
+                      ↓
+             ┌─────────────────┐
+             │   DATA LINK     │
+             │ MAC             │
+             │ Frames          │
+             └────────┬────────┘
+                      ↓
+             ┌─────────────────┐
+             │    PHYSICAL     │
+             │ Bits            │
+             │ Signals         │
+             └────────┬────────┘
+                      ↓
+                  INTERNET
+                      ↓
+             ┌─────────────────┐
+             │    PHYSICAL     │
+             └────────┬────────┘
+                      ↓
+             ┌─────────────────┐
+             │   DATA LINK     │
+             └────────┬────────┘
+                      ↓
+             ┌─────────────────┐
+             │    NETWORK      │
+             └────────┬────────┘
+                      ↓
+             ┌─────────────────┐
+             │   TRANSPORT     │
+             └────────┬────────┘
+                      ↓
+             ┌─────────────────┐
+             │    SESSION      │
+             └────────┬────────┘
+                      ↓
+             ┌─────────────────┐
+             │  PRESENTATION   │
+             └────────┬────────┘
+                      ↓
+             ┌─────────────────┐
+             │   APPLICATION   │
+             │ Friend sees it  │
+             └─────────────────┘
+```
+
+---
+
+# The Most Important OSI Chain
+
+Memorize this first:
 
 ```text
 Application
+    ↓
 Presentation
+    ↓
 Session
+    ↓
+Transport
+    ↓
+Network
+    ↓
+Data Link
+    ↓
+Physical
+```
+
+Then attach one idea to each:
+
+```text
+Application
+→ What the user wants
+
+Presentation
+→ Prepare/represent/protect the data
+
+Session
+→ Manage communication
+
+Transport
+→ Deliver data between applications
+
+Network
+→ Find the path between networks
+
+Data Link
+→ Deliver over the local/link network
+
+Physical
+→ Actually transmit bits
 ```
 
 ---
 
-# Final Mental Model
-
-When you send a message:
-
-```text
-                 USER
-                   │
-                   ▼
-          ┌─────────────────┐
-          │  APPLICATION    │
-          │ "Send message"  │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ PRESENTATION    │
-          │ Translation     │
-          │ Encryption      │
-          │ Compression     │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ SESSION         │
-          │ Manage session  │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ TRANSPORT       │
-          │ TCP / UDP       │
-          │ Segments        │
-          │ Ports           │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ NETWORK         │
-          │ IP              │
-          │ Routing         │
-          │ Packets         │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ DATA LINK       │
-          │ MAC             │
-          │ Frames          │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ PHYSICAL        │
-          │ Bits            │
-          │ Signals         │
-          └────────┬────────┘
-                   ▼
-              INTERNET
-                   │
-                   ▼
-          ┌─────────────────┐
-          │ PHYSICAL        │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ DATA LINK       │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ NETWORK         │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ TRANSPORT       │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ SESSION         │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ PRESENTATION    │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ APPLICATION     │
-          │ Friend receives │
-          │ the message     │
-          └─────────────────┘
-```
-
----
-
-# The Most Important Chain to Remember
-
-```text
-APPLICATION
-    ↓
-PRESENTATION
-    ↓
-SESSION
-    ↓
-TRANSPORT
-    ↓
-NETWORK
-    ↓
-DATA LINK
-    ↓
-PHYSICAL
-```
-
-Think:
-
-```text
-Application → What the user wants
-Presentation → Prepare/represent the data
-Session → Manage communication session
-Transport → Deliver data between applications
-Network → Find the route between networks
-Data Link → Deliver across the local/link level
-Physical → Actually transmit the bits
-```
-
----
-
-# The Most Important Addressing Concept
+# The Most Important Addressing Chain
 
 ```text
 IP Address
     ↓
-Logical Address
+Logical Addressing
     ↓
 Network Layer
+    ↓
+Routing
 ```
 
 versus:
@@ -3195,9 +3856,11 @@ versus:
 ```text
 MAC Address
     ↓
-Physical Address
+Link-level / Physical Addressing
     ↓
 Data Link Layer
+    ↓
+Frame
 ```
 
 ---
@@ -3207,49 +3870,97 @@ Data Link Layer
 ```text
 Application
     ↓
-Data
+DATA
     ↓
 Transport
     ↓
-Segment
+SEGMENT
     ↓
 Network
     ↓
-Packet
+PACKET
     ↓
 Data Link
     ↓
-Frame
+FRAME
     ↓
 Physical
     ↓
-Bits
+BITS
+```
+
+At the receiver:
+
+```text
+BITS
+ ↓
+FRAME
+ ↓
+PACKET
+ ↓
+SEGMENT
+ ↓
+DATA
 ```
 
 ---
 
-# OSI vs TCP/IP — Final Memory Diagram
+# Encapsulation — Remember This
+
+When sending:
 
 ```text
-                 OSI                    TCP/IP
+Data
+ ↓
+Segment
+ ↓
+Packet
+ ↓
+Frame
+ ↓
+Bits
+```
 
-        ┌─────────────────┐       ┌─────────────────┐
-        │ Application     │       │                 │
-        ├─────────────────┤       │                 │
-        │ Presentation    │ ────► │  Application    │
-        ├─────────────────┤       │                 │
-        │ Session         │       │                 │
-        ├─────────────────┤       ├─────────────────┤
-        │ Transport       │ ────► │  Transport      │
-        ├─────────────────┤       ├─────────────────┤
-        │ Network         │ ────► │  Network        │
-        ├─────────────────┤       ├─────────────────┤
-        │ Data Link       │ ────► │  Data Link      │
-        ├─────────────────┤       ├─────────────────┤
-        │ Physical        │ ────► │  Physical       │
-        └─────────────────┘       └─────────────────┘
+When receiving:
 
-             7 Layers                 5 Layers
+```text
+Bits
+ ↓
+Frame
+ ↓
+Packet
+ ↓
+Segment
+ ↓
+Data
+```
+
+This is one of the most important mental models in networking.
+
+---
+
+# OSI vs TCP/IP — Final Diagram
+
+```text
+             OSI                         TCP/IP
+
+      ┌───────────────┐           ┌───────────────┐
+      │ Application   │           │               │
+      ├───────────────┤           │               │
+      │ Presentation  │ ────────► │ Application   │
+      ├───────────────┤           │               │
+      │ Session       │           │               │
+      ├───────────────┤           ├───────────────┤
+      │ Transport     │ ────────► │ Transport     │
+      ├───────────────┤           ├───────────────┤
+      │ Network       │ ────────► │ Network       │
+      ├───────────────┤           ├───────────────┤
+      │ Data Link     │ ────────► │ Data Link     │
+      ├───────────────┤           ├───────────────┤
+      │ Physical      │ ────────► │ Physical      │
+      └───────────────┘           └───────────────┘
+
+          7 Layers                    5 Layers
 ```
 
 ---
@@ -3262,21 +3973,24 @@ OSI
 → 7 layers
 
 7. Application
-→ User/application interaction
+→ Applications and user interaction
 
 6. Presentation
 → Translation
 → Encoding
-→ Encryption/decryption
+→ Encryption / Decryption
 → Compression
 → Abstraction
 
 5. Session
-→ Establish/manage/terminate sessions
-→ Authentication/authorization discussed
+→ Establish
+→ Manage
+→ Maintain
+→ Terminate communication sessions
 
 4. Transport
-→ TCP/UDP
+→ TCP
+→ UDP
 → Segmentation
 → Ports
 → Sequence numbers
@@ -3294,8 +4008,8 @@ OSI
 
 2. Data Link
 → MAC
-→ Physical addressing
 → Frames
+→ Link-level addressing
 → Media Access Control
 → Error detection
 
@@ -3306,8 +4020,8 @@ OSI
 → Light signals
 → Radio signals
 
+
 TCP/IP
-→ Internet Protocol Suite
 → 5 layers
 
 Application
@@ -3316,113 +4030,16 @@ Network
 Data Link
 Physical
 
+
 OSI:
-Application + Presentation + Session
-                ↓
+Application
+Presentation
+Session
+
+        ↓
+
 TCP/IP:
-           Application
+Application
 ```
 
 ---
-
-# Final Self-Test
-
-Without looking at the notes, try answering these:
-
-1. What does OSI stand for?
-2. Why was the OSI model developed?
-3. How many OSI layers are there?
-4. Name all seven layers in order.
-5. What happens at the Application layer?
-6. What are the major responsibilities of the Presentation layer?
-7. What is translation?
-8. What is encryption?
-9. What is compression?
-10.   What is the purpose of the Session layer?
-11.   Authentication vs authorization?
-12.   What is segmentation?
-13.   What is a segment?
-14.   Why are port numbers required?
-15.   Why are sequence numbers required?
-16.   What is flow control?
-17.   What is error control?
-18.   What is a checksum?
-19.   TCP vs UDP?
-20.   What is logical addressing?
-21.   Why does the Network layer use IP?
-22.   What is routing?
-23.   What is load balancing?
-24.   What is physical addressing?
-25.   What is a MAC address?
-26.   What is a frame?
-27.   What is Media Access Control?
-28.   What happens at the Physical layer?
-29.   What are the different physical signal types mentioned?
-30.   What is the complete sender-side OSI flow?
-31.   What is the complete receiver-side OSI flow?
-32.   What is the difference between an IP address and MAC address?
-33.   What is a segment?
-34.   What is a packet?
-35.   What is a frame?
-36.   What are bits?
-37.   What is the TCP/IP model?
-38.   How many layers does the TCP/IP model have according to the source?
-39.   Which three OSI layers are merged into TCP/IP's Application layer?
-40.   What is the major structural difference between OSI and TCP/IP?
-
----
-
-# Core Mental Model
-
-If you remember only one thing:
-
-```text
-                    OSI
-
-        WHAT APPLICATION WANTS
-                 ↓
-          APPLICATION
-                 ↓
-        PREPARE THE DATA
-          PRESENTATION
-                 ↓
-        MANAGE THE SESSION
-             SESSION
-                 ↓
-       DELIVER BETWEEN APPS
-            TRANSPORT
-                 ↓
-       FIND THE DESTINATION
-             NETWORK
-                 ↓
-       LOCAL/LINK DELIVERY
-            DATA LINK
-                 ↓
-       SEND ACTUAL SIGNALS
-             PHYSICAL
-```
-
-And remember the addressing:
-
-```text
-IP  → Logical → Network layer
-MAC → Physical → Data Link layer
-```
-
-And the data units:
-
-```text
-Transport → Segment
-Network   → Packet
-Data Link → Frame
-Physical  → Bits
-```
-
-And the model comparison:
-
-```text
-OSI    → 7 layers
-TCP/IP → 5 layers
-```
-
-> **Source boundary:** The uploaded material ends during the introduction of the TCP/IP model's practical usage comparison. The notes above therefore do not add a detailed TCP/IP explanation beyond what the supplied material actually contains.
